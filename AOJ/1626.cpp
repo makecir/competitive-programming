@@ -41,23 +41,23 @@ public:
 
 };
 
-int main() {
-	int n;
-	int vvv[101][101][101];
-	cin >> n;
-	vi x(n), y(n), h(n);
-	rep(i, n) {
-		cin >> x[i] >> y[i] >> h[i];
-		rep(j, 101) {
-			rep(k, 101) {
-				vvv[i][j][k] = h[i] + (abs(j - x[i])) + (k - [y]);
-			}
+void solve(ll n) {
+	ll ans = 1;
+	ll fsans = n;
+	for (ll i = 2; i*i <= n*2; i++){
+		ll l = n - ((i - 1)*i / 2);
+		if (l >= 0 && l%i == 0) {
+			fsans = l / i;
+			ans = i;
 		}
 	}
-	rep(i, n) {
-		if (h[i] != 0) {
-		}
-		else {
-		}
+	cout << fsans << " " << ans << endl;
+}
+
+
+int main() {
+	ll n;
+	while (cin >> n, n) {
+		solve(n);
 	}
 }
