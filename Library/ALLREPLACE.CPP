@@ -8,13 +8,3 @@ string alrep(string str,string b,string a){
     return str;
 }
 
-int gcd(int x, int y)
-{
-    int r;
-    while((r=x%y)!=0)
-    {
-        x=y;
-        y=r;
-    }
-    return y;
-}
