@@ -10,6 +10,7 @@ using msi = map<string, int>;
 using mii = map<int, int>;
 using psi = pair<string, int>;
 using pii = pair<int, int>;
+using tii = tuple<int, int>;
 using vlai = valarray<int>;
 #define rep(i,n) for(int i=0;i<n;i++)
 #define range(i,s,n) for(int i=s;i<n;i++)
