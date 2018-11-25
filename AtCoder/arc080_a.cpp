@@ -40,41 +40,13 @@ public:
 };
 
 int main() {
-	ll n, a, b;
-	cin >> n >> a >> b;
-	vl v(n + 1);
-	ll mx = 0, mn = 0;
-	ll ans = 0;
+	int n, in;
+	cin >> n;
+	int tw = 0, fo = 0;
 	rep(i, n) {
-		cin >> v[i];
-		mx = max(mx, v[i]);
+		cin >> in;
+		if (in % 4 == 0)fo++;
+		else if (in % 2 == 0)tw++;
 	}
-	ans = mx;
-	while (1) {
-		ll sum = 0;
-		rep(i, n + 1) {
-			ll tmp = max((ll)0, v[i] - ans*b);
-			sum += (tmp + a - b - 1) / (a - b);
-		}
-		if (sum > ans) {
-			if (mx - ans >= 2) {
-				mn = ans;
-				ans = (mx + mn) / 2;
-			}
-			else {
-				cout << ans + 1 << endl;
-				return 0;
-			}
-		}
-		else {
-			if (ans - mn >= 2) {
-				mx = ans;
-				ans = (mx + mn) / 2;
-			}
-			else {
-				cout << ans << endl;
-				return 0;
-			}
-		}
-	}
+	cout << ((n-1 <= fo * 2 + max(0,tw-1)) ? "Yes" : "No") << endl;
 }
