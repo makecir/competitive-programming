@@ -103,5 +103,4 @@ int main() {
 	}
 	cout << (cnt * 2 > n ? "Fennec" : "Snuke") << endl;
 	
-
 }
