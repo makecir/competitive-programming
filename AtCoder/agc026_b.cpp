@@ -56,7 +56,6 @@ int main() {
 				if ((b - a - 1) / dif*dif > (c - a))ans = false;
 			}
 		}
-		
 		cout << (ans ? "Yes" : "No") << endl;
 	}
 }
