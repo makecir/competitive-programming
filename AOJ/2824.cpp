@@ -60,7 +60,7 @@ void solve() {
 int main() {
 	cin.tie(0);
 	ios::sync_with_stdio(false);
-
+	
 	while (cin >> t >> d >> l,t) {
 		solve();
 	}
