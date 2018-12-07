@@ -72,7 +72,6 @@ void solve() {
 				ans[j] = ans[j] & fa;
 			}
 		}
-
 		//cout << bitset<64>(tr) << endl;
 		//cout << bitset<64>(fa) << endl;
 		//cout << bitset<64>(ans[8]) << endl;
