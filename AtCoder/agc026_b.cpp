@@ -59,3 +59,4 @@ int main() {
 		cout << (ans ? "Yes" : "No") << endl;
 	}
 }
+
