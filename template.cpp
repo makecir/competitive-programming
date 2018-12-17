@@ -1,48 +1,45 @@
 #include <bits/stdc++.h>
 using namespace std;
-using ll = long long;
-using vi = vector<int>;
-using vvi = vector<vi>;
-using vl = vector<ll>;
-using vb = vector<bool>;
-using vs = vector<string>;
-using msi = map<string, int>;
-using mii = map<int, int>;
-using psi = pair<string, int>;
-using pii = pair<int, int>;
-using tii = tuple<int, int>;
-using vlai = valarray<int>;
-#define rep(i,n) for(int i=0;i<n;i++)
-#define range(i,s,n) for(int i=s;i<n;i++)
+using ll=long long;
+using vb=vector<bool>;
+using vvb=vector<vb>;
+using vd=vector<double>;
+using vvd=vector<vd>;
+using vl=vector<ll>;
+using vvl=vector<vl>;
+using pll=pair<ll,ll>;
+using tll=tuple<ll,ll>;
+using vs=vector<string>;
 #define all(a) a.begin(),a.end()
 #define rall(a) a.rbegin(),a.rend()
-#define fs first
-#define sc second
-#define pb push_back
-#define eb emplace_back
-#define mp make_pair
-#define INF 1E9
-#define LINF 1E18*5
-#define EPS 1E-9
-#define MOD 1000000007
-#define PI 3.1415926535897932384
+#define rep(i,n) range(i,0,n)
+#define range(i,a,n) for(int i=(a);i<(n);i++)
 
-template<class S, class T>ostream& operator<<(ostream&os, pair<S, T>p) { os << "[" << p.first << ", " << p.second << "]"; return os; };
-template<class S>auto&operator<<(ostream&os, vector<S>t) { bool a = 1; for (auto s : t) { os << (a ? "" : " ") << s; a = 0; } return os; }
+#define LINF    	((ll)1ll<<60)
+#define INF     	((int)1<<30)
+#define EPS     	(1e-9)
+#define MOD     	(1000000007ll)
+#define fcout(a)	cout<<setprecision(a)<<fixed
+#define fs 			first
+#define sc			second
+#define PI			3.1415926535897932384
 
-//int dx[]={1,1,1,0,-1,-1,-1,0},dy[8]={1,0,-1,-1,-1,0,1,1,1};
-//
-constexpr ll gcd(ll a, ll b) { return b ? gcd(b, a%b) : a; }
+int dx[]={1,0,-1,0,1,-1,-1,1},dy[]={0,1,0,-1,1,1,-1,-1};
+template<class S,class T>ostream&operator<<(ostream&os,pair<S,T>p){os<<"["<<p.first<<", "<<p.second<<"]";return os;};
+template<class S>auto&operator<<(ostream&os,vector<S>t){bool a=1; for(auto s:t){os<<(a?"":" ")<<s; a=0;} return os;}
+void OUT(bool b){cout<<(b?"YES":"NO")<<endl;}
+void Out(bool b){cout<<(b?"Yes":"No")<<endl;}
+void out(bool b){cout<<(b?"yes":"no")<<endl;}
+int popcnt(uint x) { return __builtin_popcount(x); }
+int popcnt(ull x) { return __builtin_popcountll(x); }
+int bsr(uint x) { return 31 - __builtin_clz(x); }
+int bsr(ull x) { return 63 - __builtin_clzll(x); }
+int bsf(uint x) { return __builtin_ctz(x); }
+int bsf(ull x) { return __builtin_ctzll(x); }
 
-class compare {
-public:
-	bool operator()(tuple<int, int> a, tuple<int, int> b) {
-		return (get<1>(a) < get<1>(b));
-	}
 
-};
+int main(){
+	cin.tie(0);
+   	ios::sync_with_stdio(false);
 
-
-int main() {
-	
 }
