@@ -23,70 +23,51 @@ using vlai = valarray<int>;
 #define MOD (1E9+7)
 #define PI 3.1415926535897932384
 
-std::ostream &operator<<(std::ostream &out, const vector<int> &tgt)
-{
-	string s;
-	for (int i = 0; i<tgt.size(); i++) {
-		s += (to_string(tgt[i]) + ((i != tgt.size() - 1) ? " " : ""));
-	}
-	out << s;
-	return out;
-}
-
-#define P pair<int,int>
-struct edge { int to, cost; };
-
-class CompareDist
-{
+class compare {
 public:
-	bool operator()(pair<int, int> n1, pair<int, int> n2) {
-		return n1.second > n2.second;
+	bool operator()(tuple<ll, ll> a, tuple<ll, ll> b) {
+		return (get<1>(a) > get<1>(b));
 	}
 };
 
 int V;
-vector<vector<edge>> G;
-vector<int> d;
+vector<vector<tll>> g;
+vector<ll> d;
 
 void dijkstra(int s) {
-	priority_queue<P, vector<P>, CompareDist> q;
-	//fill(d,d+V,INT_MAX);
-	d = vector<int>(V, INT_MAX);
-	d[s] = 0;
-	q.push(P(s, 0));     
-
+	fill(all(d),LINF);
+	d[s]=0;
+	vb vstd(V, false);
+	priority_queue<tll, vector<tll>, compare> q;
+	q.push(tll(s, 0));
 	while (!q.empty()) {
-		P p = q.top(); q.pop();
-		int v = p.first;
-		if (d[v]<p.second)continue;
-		for (int i = 0; i<G[v].size(); i++) {
-			edge e = G[v][i];
-			if (d[e.to]>d[v] + e.cost) {
-				d[e.to] = d[v] + e.cost;
-				q.push(P(e.to, d[e.to]));
-			}
+		ll to, dist;
+		tie(to, dist) = q.top(); q.pop();
+		if (vstd[to])continue;
+		vstd[to] = true;
+		d[to] = dist;
+		rep(i, g[to].size()) {
+			ll next = get<0>(g[to][i]);
+			ll cost = get<1>(g[to][i]);
+			if (d[next] < dist + cost)continue;
+			q.push(tll(next, dist + cost));
 		}
 	}
 }
-int main(void) {
-	int n, in, t, c;
-	cin >> n;
-	V = n;
-	G.resize(n);
-	d.resize(n);
-	for (int i = 0; i<n; i++) {
-		cin >> in;
-		int node = in;
-		cin >> in;
-		for (int j = 0; j<in; j++) {
-			cin >> t >> c;
-			edge ed = { t,c };
-			G[node].push_back(ed);
-		}
 
+int main(){
+	cin.tie(0);
+	ios::sync_with_stdio(false);
+	ll n,m,t;
+	cin>>n>>m;
+	vl x(m),y(m),z(m);
+	V=(int)n;
+	g.resize(n);
+	d.resize(n);
+	rep(i,m){
+		cin>>x[i]>>y[i]>>z[i];
+		x[i]--;y[i]--;//0indexed
+		g[x[i]].push_back(tll(y[i],z[i]));
 	}
 	dijkstra(0);
-	for (int i = 0; i<d.size(); i++) {
-		cout << i << " " << d[i] << endl;
-	}
 }
