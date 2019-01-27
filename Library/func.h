@@ -1,4 +1,5 @@
 constexpr ll gcd(ll a,ll b){return b?gcd(b,a%b):a;}
+
 ll exgcd(ll a,ll b,ll &x,ll &y) {
 	if(b==0){
 		x=1;
