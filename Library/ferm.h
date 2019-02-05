@@ -20,7 +20,7 @@ ll modpw(ll x, ll k) {
 ll comb(ll n, ll k) {
 	if (n == 0 && k == 0)return 1;
 	if (n < k || n < 0)return 0;
-	return fact[n] * finv[n - k] % MOD * finv[k] % MOD;;
+	return fact[n] * finv[n - k] % MOD * finv[k] % MOD;
 }
 
 struct ferm{
