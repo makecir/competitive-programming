@@ -71,3 +71,30 @@ int main(){
 	}
 	dijkstra(0);
 }
+
+
+/*
+
+vector<ll> dijkstra(int s,int V,vector<vector<tll>> g) {
+	vector<ll> d(V);
+	fill(all(d),LINF);
+	d[s]=0;
+	vb vstd(V, false);
+	priority_queue<tll, vector<tll>, compare> q;
+	q.push(tll(s, 0));
+	while (!q.empty()) {
+		ll to, dist;
+		tie(to, dist) = q.top(); q.pop();
+		if (vstd[to])continue;
+		vstd[to] = true;
+		d[to] = dist;
+		rep(i, g[to].size()) {
+			ll next = get<0>(g[to][i]);
+			ll cost = get<1>(g[to][i]);
+			if (d[next] < dist + cost)continue;
+			q.push(tll(next, dist + cost));
+		}
+	}
+	return d;
+}
+*/
