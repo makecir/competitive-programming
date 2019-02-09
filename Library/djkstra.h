@@ -73,8 +73,6 @@ int main(){
 }
 
 
-/*
-
 vector<ll> dijkstra(int s,int V,vector<vector<tll>> g) {
 	vector<ll> d(V);
 	fill(all(d),LINF);
@@ -97,4 +95,3 @@ vector<ll> dijkstra(int s,int V,vector<vector<tll>> g) {
 	}
 	return d;
 }
-*/
