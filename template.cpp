@@ -30,16 +30,9 @@ template<class S>auto&operator<<(ostream&os,vector<S>t){bool a=1; for(auto s:t){
 void OUT(bool b){cout<<(b?"YES":"NO")<<endl;}
 void Out(bool b){cout<<(b?"Yes":"No")<<endl;}
 void out(bool b){cout<<(b?"yes":"no")<<endl;}
-int popcnt(uint x) { return __builtin_popcount(x); }
-int popcnt(ull x) { return __builtin_popcountll(x); }
-int bsr(uint x) { return 31 - __builtin_clz(x); }
-int bsr(ull x) { return 63 - __builtin_clzll(x); }
-int bsf(uint x) { return __builtin_ctz(x); }
-int bsf(ull x) { return __builtin_ctzll(x); }
-
-
 int main(){
 	cin.tie(0);
-   	ios::sync_with_stdio(false);
+	ios::sync_with_stdio(false);
+	
 
 }
