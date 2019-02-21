@@ -23,3 +23,10 @@ map<ll,int> primeFactor(ll n){
     if(n-1)ret[n]++;
     return ret;
 }
+
+int popcnt(int x){return __builtin_popcount(x);}
+int popcnt(ll x){return __builtin_popcountll(x);}
+int clz(int x){return 32 - __builtin_clz(x);}
+int clz(ll x){return 64 - __builtin_clzll(x);}
+int ffs(int x){return __builtin_ffs(x);}
+int ffs(ll x){return __builtin_ffsll(x);}
