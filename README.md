@@ -4,4 +4,4 @@ AtCoder : https://atcoder.jp/users/makecir
 
 Codeforces : https://codeforces.com/profile/makecir
 
-since 2018/10/30
+Recorded since 2018/10/30
