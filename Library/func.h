@@ -17,7 +17,16 @@ bool isPrime(ll n){
     return true;
 }
 
-map<ll,int> primeFactor(ll n){
+vl primeFactorVec(ll n) {
+	vl ret;
+	for(ll i=2;i*i<=n;i++){
+		if(n%i==0){ret.push_back(i);while(n%i==0){n/=i;}};
+	}
+	if(n>1) ret.push_back(n);
+	return ret;
+}
+
+map<ll,int> primeFactorMp(ll n){
     map<ll,int> ret;
     for(ll i=2;i*i<=n;i++)if(n%i==0){n/=i;ret[i--]++;}
     if(n-1)ret[n]++;
