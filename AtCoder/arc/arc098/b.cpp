@@ -50,9 +50,23 @@ template<class S>auto&operator<<(ostream&os,vector<S>t){bool a=1; for(auto s:t){
 int main(){
 	cin.tie(0);
 	ios::sync_with_stdio(false);
-	ll n;
+	ll n,ans=0;
 	cin>>n;
 	vl v(n);
 	rep(i,n)cin>>v[i];
-	
+	ll r=-1;
+	ll psum=0,xsum=0;
+	rep(i,n){
+		if(i!=0){
+			psum-=v[i-1];
+			xsum^=v[i-1];
+		}
+		while(r+1<n&&(psum+v[r+1])==(xsum^v[r+1])){
+			psum+=v[r+1];
+			xsum^=v[r+1];
+			r++;
+		}
+		ans+=r-i+1;
+	}
+	cout<<ans<<endl;
 }
