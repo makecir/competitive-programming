@@ -85,3 +85,4 @@ int main(){
 	}
 	cout<<((yo&&th)?"Yay!":":(")<<endl;
 }
+

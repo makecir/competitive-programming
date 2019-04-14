@@ -101,3 +101,4 @@ int main(){
 	fcout(10);
 	cout<<ans<<endl;
 }
+
