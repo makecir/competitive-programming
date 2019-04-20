@@ -47,19 +47,56 @@ template<class H,class...T>void puta(H&&h,T&&...t){cout<<h<<' ';puta(t...);}
 template<class S,class T>ostream&operator<<(ostream&os,pair<S,T>p){os<<"["<<p.first<<", "<<p.second<<"]";return os;};
 template<class S>auto&operator<<(ostream&os,vector<S>t){bool a=1; for(auto s:t){os<<(a?"":" ")<<s;a=0;} return os;}
 
+vl fact,finv;
+ll mdpow(ll x,ll k){
+	ll res=1;
+	while(k!=0){
+		if(k&1)res=res*x%MOD;
+		x=x*x%MOD;
+		k=k>>1;
+	}
+	return res;
+}
+
+ll comb(ll n,ll k) {
+	if(n==0&&k==0)return 1;
+	if(n<k||n<0)return 0;
+	return fact[n]*finv[n-k]%MOD*finv[k]%MOD;
+}
+
+struct ferm{
+	ferm(ll n){
+		fact.resize(n);
+		finv.resize(n);
+		fact[0]=1;
+		finv[0]=1;
+		rep(i,n-1){
+			fact[i+1]=(fact[i]*(i+1))%MOD;
+			finv[i+1]=mdpow(fact[i+1],MOD-2);
+		}
+	}
+};
+
 int main(){
 	cin.tie(0);
 	ios::sync_with_stdio(false);
-	int n,tmp,ans=0,kuro=0,siro=0;
-	cin>>n;
-	string s;
-	cin>>s;
-	rep(i,n)if(s[i]=='#')kuro++;
-	ans=tmp=n-kuro;
-	rep(i,n){
-		if(s[i]=='.')tmp--;
-		else tmp++;
-		chmin(ans,tmp);
+	int n,x;
+	ll ans=0;
+	cin>>n>>x;
+	ferm(20000);
+	rep(i,n+1){
+		int j=0;
+		while(i+j<=n&&(i+j*2<x||(x%2==1&&i==0))){
+			ll tmp=1;
+			tmp*=comb(n,i);
+			tmp%=MOD;
+			tmp*=comb(n-i,j);
+			tmp%=MOD;
+			ans+=tmp;
+			ans%=MOD;
+			puta(i,j,tmp);
+			j++;
+		}
 	}
 	cout<<ans<<endl;
 }
