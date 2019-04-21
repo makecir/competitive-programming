@@ -24,7 +24,7 @@ using vs=vector<string>;
 #define LINF ((ll)1ll<<60)
 #define INF ((int)1<<30)
 #define EPS (1e-9)
-#define MOD (1000000007ll)
+#define MOD (998244353ll)
 #define fcout(a) cout<<setprecision(a)<<fixed
 #define fs first
 #define sc second
