@@ -50,6 +50,15 @@ template<class S>auto&operator<<(ostream&os,vector<S>t){bool a=1; for(auto s:t){
 int main(){
 	cin.tie(0);
 	ios::sync_with_stdio(false);
-	int n,a,b,c,d;
-	
+	ll n,m,mn=100000,ans=0;
+	ans=0;
+	cin>>n>>m;
+	vl a(m),b(m);
+	rep(i,m){
+		cin>>a[i]>>b[i];
+		chmin(mn,a[i]);
+		ans+=max(0,n-a[i]);
+	}
+	ans-=max(0,n-mn);
+	cout<<ans<<endl;
 }
