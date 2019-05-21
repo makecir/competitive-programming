@@ -47,36 +47,33 @@ template<class H,class...T>void puta(H&&h,T&&...t){cout<<h<<' ';puta(t...);}
 template<class S,class T>ostream&operator<<(ostream&os,pair<S,T>p){os<<"["<<p.first<<", "<<p.second<<"]";return os;};
 template<class S>auto&operator<<(ostream&os,vector<S>t){bool a=1; for(auto s:t){os<<(a?"":" ")<<s;a=0;} return os;}
 
-vl pr;
-
-bool isPrime(ll n){
-	if(n==1)return false;
-	for(ll i=2;i*i<=n;i++)if(n%i==0)return false;
-	return true;
-}
-
-void solve(int m,int a,int b){
-	ll mx=0;
-	ll ansa,ansb;
-	rep(i,pr.size()){
-		range(j,i,pr.size()){
-			if(pr[i]*b<pr[j]*a)continue;
-			else if(pr[i]*pr[j]>m)j+=pr.size();
-			else if(chmax(mx,pr[i]*pr[j])){
-				ansa=pr[i];
-				ansb=pr[j];
-			}
+void solve(int n){
+	vs code(n);
+	string s;
+	int mx=0,ans=-1;
+	rep(i,n){
+		cin>>s;
+		rep(j,s.size()){
+			if(j==0||s[j-1]=='a'||s[j-1]=='i'||s[j-1]=='u'||s[j-1]=='e'||s[j-1]=='o')code[i].push_back(s[j]);
+		}
+		chmax(mx,(int)code[i].size());
+	}
+	range(i,1,mx+1){
+		bool ok=true;
+		rep(j,n)rep(k,n){
+			if(j!=k&&code[j].substr(0,i)==code[k].substr(0,i))ok=false;
+		}
+		if(ok){
+			ans=i;
+			break;
 		}
 	}
-	cout<<ansa<<" "<<ansb<<endl;
+	cout<<ans<<endl;
 }
 
 int main(){
 	cin.tie(0);
 	ios::sync_with_stdio(false);
-	int m,a,b;
-	range(i,1,100008){
-		if(isPrime(i))pr.push_back(i);
-	}
-	while(cin>>m>>a>>b,m)solve(m,a,b);
+	int n;
+	while(cin>>n,n)solve(n);
 }
