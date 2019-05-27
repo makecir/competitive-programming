@@ -57,12 +57,12 @@ void solve(int n){
 		vi o(256);
 		rep(l,n){
 			r=(r*j+k)%256;
-			o[(r+v[i])%256]++;
+			o[(r+v[l])%256]++;
 		}
 		double h=0;
 		rep(l,256){
 			if(o[l]){
-				h-=o[l]*(log(o[i])-log(n));
+				h-=o[l]*(log(o[l])-log(n));
 			}
 		}
 		if(chmin(minh,h)){s=i;a=j;c=k;}
