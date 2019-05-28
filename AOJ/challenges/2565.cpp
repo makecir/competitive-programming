@@ -23,7 +23,7 @@ using vs=vector<string>;
 
 #define LINF ((ll)1ll<<60)
 #define INF ((int)1<<30)
-#define EPS (1e-5)
+#define EPS (1e-9)
 #define MOD (1000000007ll)
 #define fcout(a) cout<<setprecision(a)<<fixed
 #define fs first
@@ -48,27 +48,38 @@ template<class S,class T>ostream&operator<<(ostream&os,pair<S,T>p){os<<"["<<p.fi
 template<class S>auto&operator<<(ostream&os,vector<S>t){bool a=1; for(auto s:t){os<<(a?"":" ")<<s;a=0;} return os;}
 
 void solve(int n){
-	vi v(n);
-	fcout(10);
-	int s=0,a=0,c=0;
-	double minh=INF;
-	rep(i,n)cin>>v[i];
-	rep(i,16)rep(j,16)rep(k,16){
-		int r=i;
-		vi o(256);
-		rep(l,n){
-			r=(r*j+k)%256;
-			o[(r+v[l])%256]++;
-		}
-		double h=0;
-		rep(l,256){
-			if(o[l]){
-				h-=o[l]*(log(o[l])-log(n));
+	string in;
+	ll mn=-LINF,mx=LINF;
+	vl v(n);
+	rep(i,n){
+		cin>>in;
+		if(in=="x")v[i]=LINF;
+		else v[i]=stoll(in);
+	}
+	rep(i,n){
+		if(v[i]==LINF){
+			if(i%2==0){
+				if(i!=0)chmin(mx,v[i-1]-1);
+				if(i!=n-1)chmin(mx,v[i+1]-1);
+			}
+			else{
+				chmax(mn,v[i-1]+1);
+				if(i!=n-1)chmax(mn,v[i+1]+1);
 			}
 		}
-		if(minh>h+EPS){minh=h;s=i;a=j;c=k;}
 	}
-	puta(s,a,c);
+	bool safe=true;
+	rep(i,n){
+		if(v[i]==LINF)v[i]=mx;
+		if(i==0)continue;
+		safe&=(i%2==0?(v[i-1]>v[i]):(v[i-1]<v[i]));
+	}
+	if(safe){
+		if(mx==mn)cout<<mx<<"\n";
+		else cout<<"ambiguous"<<"\n";
+	}
+	else cout<<"none"<<"\n";
+
 }
 
 int main(){
