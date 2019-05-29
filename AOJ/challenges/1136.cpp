@@ -63,28 +63,36 @@ void solve(int n){
 		rep(j,4){
 			bool check=true;
 			rep(k,m){
-				tx=dx[j]*(x[k]-x[0]);
-				ty=dy[j]*(y[k]-y[0]);
-				puta(tx,ty,":",x0[k]-x0[0],y0[k]-y0[0]);
+				tx=(x[k]-x[0]);
+				ty=(y[k]-y[0]);
+				if(j==1){swap(tx,ty);tx*=-1;}
+				if(j==2){tx*=-1;ty*=-1;}
+				if(j==3){swap(tx,ty);ty*=-1;}
+				//puta(tx,ty,":",x0[k]-x0[0],y0[k]-y0[0]);
 				if(!(tx==x0[k]-x0[0]&&ty==y0[k]-y0[0])){
 					check=false;
 					k=m;
-					puta("!");
+					//puta("!");
 				}
 			}
-			ok|=check;
+			ok|=(check&&m==x0.size());
 		}
 		rep(j,4){
 			bool check=true;
 			rep(k,m){
-				int tx=dx[j]*(x[k]-x[m-1]);
-				int ty=dy[j]*(y[k]-y[m-1]);
-				if(!(tx==x0[k]-x0[0]&&ty==y0[k]-y0[0])){
+				tx=(x[k]-x[0]);
+				ty=(y[k]-y[0]);
+				if(j==1){swap(tx,ty);tx*=-1;}
+				if(j==2){tx*=-1;ty*=-1;}
+				if(j==3){swap(tx,ty);ty*=-1;}
+				//puta(tx,ty,":",x0[k]-x0[0],y0[k]-y0[0]);
+				if(!(tx==x0[m-1-k]-x0[m-1]&&ty==y0[m-1-k]-y0[m-1])){
 					check=false;
 					k=m;
+					//puta("!");
 				}
 			}
-			ok|=check;
+			ok|=(check&&m==x0.size());
 		}
 		if(ok)cout<<i+1<<"\n";
 	}
