@@ -59,11 +59,12 @@ void solve(int n){
 		vl x(m),y(m);
 		rep(j,m)cin>>x[j]>>y[j];
 		bool ok=false;
+		int tx,ty;
 		rep(j,4){
 			bool check=true;
 			rep(k,m){
-				int tx=dx[j]*(x[k]-x[0]);
-				int ty=dy[j]*(y[k]-y[0]);
+				tx=dx[j]*(x[k]-x[0]);
+				ty=dy[j]*(y[k]-y[0]);
 				puta(tx,ty,":",x0[k]-x0[0],y0[k]-y0[0]);
 				if(!(tx==x0[k]-x0[0]&&ty==y0[k]-y0[0])){
 					check=false;
