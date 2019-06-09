@@ -47,7 +47,7 @@ template<class H,class...T>void puta(H&&h,T&&...t){cout<<h<<' ';puta(t...);}
 template<class S,class T>ostream&operator<<(ostream&os,pair<S,T>p){os<<"["<<p.first<<", "<<p.second<<"]";return os;};
 template<class S>auto&operator<<(ostream&os,vector<S>t){bool a=1; for(auto s:t){os<<(a?"":" ")<<s;a=0;} return os;}
 
-ll dp[100008][3];
+ll dp[100008][2];
 //jは余裕がある
 
 int main(){
@@ -58,27 +58,16 @@ int main(){
 	int n=s.size();
 	dp[0][0]=1;
 	rep(i,n){
-		rep(l,3){
+		rep(j,2){
 			rep(k,2){
-				rep(j,2){
-					int nxt=l;
-					if(s[i]-'0'<j+k&&nxt!=2)nxt--;
-					if(s[i]-'0'>j+k)nxt++;
-					if(nxt<0)continue;
-					puta(i,j,k,nxt,l,dp[i][l]);
-					dp[i+1][min(nxt,2)]+=dp[i][l];
-					dp[i+1][min(nxt,2)]%=MOD;
+				rep(l,2){
+					if((j==1&&k==1)||!l&&s[i]-'0'<j+k)continue;
+					dp[i+1][l|(s[i]-'0'>j+k)]+=dp[i][l];
+					dp[i+1][l|(s[i]-'0'>j+k)]%=MOD;
 				}
 			}
 		}
 	}
-	puta("!");
-	rep(i,n+1)cout<<dp[i][0]<<" ";
-	cout<<endl;
-		rep(i,n+1)cout<<dp[i][1]<<" ";
-	cout<<endl;
-			rep(i,n+1)cout<<dp[i][2]<<" ";
-	cout<<endl;
-	cout<<dp[n][0]+dp[n][1]+dp[n][2]<<endl;
+	cout<<(dp[n][0]+dp[n][1])%MOD<<endl;
 
 }
