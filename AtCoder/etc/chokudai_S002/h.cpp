@@ -46,45 +46,23 @@ template<class T>void puta(T&&t){cout<<t<<"\n";}
 template<class H,class...T>void puta(H&&h,T&&...t){cout<<h<<' ';puta(t...);}
 template<class S,class T>ostream&operator<<(ostream&os,pair<S,T>p){os<<"["<<p.first<<", "<<p.second<<"]";return os;};
 template<class S>auto&operator<<(ostream&os,vector<S>t){bool a=1; for(auto s:t){os<<(a?"":" ")<<s;a=0;} return os;}
-
-ll x;
-
+vl primeFactorVec(ll n) {
+	vl ret;
+	for(ll i=2;i*i<=n;i++){
+		if(n%i==0){ret.push_back(i);while(n%i==0){n/=i;}};
+	}
+	if(n>1) ret.push_back(n);
+	return ret;
+}
 int main(){
 	cin.tie(0);
 	ios::sync_with_stdio(false);
-	ll n,sum=0,ao=0;
-	cin>>n>>x;
-	vl b(n),l(n),r(n);
-	rep(i,n)cin>>b[i]>>l[i]>>r[i];
-	vector<tlll> v(n);
-	rep(i,n)v[i]=tie(b[i],l[i],r[i]);
-	rep(i,n)sum+=r[i]*x,ao+=b[i]*r[i];
-	sort(all(v),[](auto &a,auto &b){
-		if(get<2>(a)*(x-get<0>(a)) != get<2>(b)*(x-get<0>(b))) return (get<2>(a)*(x-get<0>(a)) < get<2>(b)*(x-get<0>(b)));
-		else return(get<0>(a) > get<0>(b));
-	});
-	puta(sum,ao);
+	ll n;
+	cin>>n;
+	vl a(n),b(n);
+	rep(i,n)cin>>a[i]>>b[i];
 	rep(i,n){
-		puta(get<0>(v[i]),get<1>(v[i]),get<2>(v[i]));
-		ao-=(get<2>(v[i])-get<1>(v[i]))*get<0>(v[i]);
-		sum-=get<2>(v[i])*x;
-		puta(sum,ao);
-		if(sum<ao){
-			ao+=(get<2>(v[i])-get<1>(v[i]))*get<0>(v[i]);
-			sum+=get<2>(v[i])*x;
-			ll mn=x;
-			range(j,i,n){
-				//ao-=(get<2>(v[j])-get<1>(v[j]))*get<0>(v[j]);
-				sum-=get<2>(v[j])*x;
-				puta(ao-sum);
-				chmin(mn,((ao-sum+get<0>(v[j])*(get<2>(v[j])-get<1>(v[j]))-1)/get<2>(v[j])+1));				
-				puta("!",get<0>(v[j]),((ao-sum+get<0>(v[j])*(get<2>(v[j])-get<1>(v[j]))-1)/get<2>(v[j])+1));
-				//ao+=(get<2>(v[j])-get<1>(v[j]))*get<0>(v[j]);
-				sum+=get<2>(v[j])*x;
-			}
-			cout<< x*(n-i-1)+mn<<endl;
-			return 0;
-		}
+		if(a[i]==b[i])cout<<-1<<"\n";
+		else cout<<abs(a[i]-b[i])<<"\n";
 	}
-	cout<<x*n<<endl;
 }
