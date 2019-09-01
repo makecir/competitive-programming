@@ -50,25 +50,23 @@ template<class S>auto&operator<<(ostream&os,vector<S>t){bool a=1; for(auto s:t){
 int main(){
 	cin.tie(0);
 	ios::sync_with_stdio(false);
+	int n;
+	cin>>n;
+	vd x(n),y(n);
+	rep(i,n)cin>>x[i]>>y[i];
 	ll ans=0;
-	ll l,r;
-	cin>>l>>r;
-	rep(i,62){
-		ll lll=max(1ll<<i,l);
-		ll rrr=min((1ll<<(i+1))-1,r);
-		if(rrr-lll<=0)continue;
-		ll cnt=0;
-		rep(j,i){
-			if(((1ll<<(j))&rrr)&&(!((1ll<<(j))&lll)))cnt++;
+	rep(i,10000){
+		double cy=sin(2*PI*(i/10000.0));
+		double cx=cos(2*PI*(i/10000.0));
+		ll tx=0,ty=0;
+		rep(j,n){
+			if((cx*x[j]+cy*y[j])>0){
+				tx+=x[j];
+				ty+=y[j];
+			}
 		}
-		ll tab=1;
-		rep(j,cnt){
-			tab*=2;tab%=MOD;
-		}
-		tab=(tab*(tab+1)/2)%MOD;
-		ans+=tab;
-
-		puta(i,lll,rrr);
+		//puta(cy,cx,(tx*tx+ty*ty));
+		chmax(ans,(tx*tx+ty*ty));
 	}
-	cout<<ans<<endl;
+	fcout(11)<<sqrt(ans)<<endl;
 }

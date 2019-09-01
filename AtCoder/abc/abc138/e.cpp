@@ -47,28 +47,56 @@ template<class H,class...T>void puta(H&&h,T&&...t){cout<<h<<' ';puta(t...);}
 template<class S,class T>ostream&operator<<(ostream&os,pair<S,T>p){os<<"["<<p.first<<", "<<p.second<<"]";return os;};
 template<class S>auto&operator<<(ostream&os,vector<S>t){bool a=1; for(auto s:t){os<<(a?"":" ")<<s;a=0;} return os;}
 
+template<class T=ll>struct Graph{
+	int n;
+	vector<vector<tuple<ll,T>>>edge;
+	Graph(int N=1):n(N){edge.resize(n);}
+	void add(ll f,ll t,T c,bool d=false){
+		edge[f].emplace_back(t,c);
+		if(!d)edge[t].emplace_back(f,c);
+	}
+	void view(){
+		rep(i,n)for(auto&e:edge[i])
+			puta(i,"=>",get<0>(e),", cost :",get<1>(e));
+	}
+};
+
+template<class T=ll>struct BellmanFord:Graph<T>{
+	using Graph<T>::Graph;
+	BellmanFord(int N=1):Graph<T>::Graph(N){}
+	const T mval=numeric_limits<T>::max()/2;
+	vector<T>dist(ll s){
+		vector<T> ret(this->n,mval);
+		ret[s]=0;
+		rep(i,2*this->n){
+			rep(f,this->n)for(auto&e:this->edge[f]){
+				ll t; T c; tie(t,c)=e;
+				if(ret[f]!=mval && chmin(ret[t],ret[f]+c) && i+1>=this->n){
+					ret[t]=-mval;
+				}
+			}
+		}
+		return ret;
+	}
+	T dist(ll s,ll t){return dist(s)[t];}
+};
+
 int main(){
 	cin.tie(0);
 	ios::sync_with_stdio(false);
-	ll ans=0;
-	ll l,r;
-	cin>>l>>r;
-	rep(i,62){
-		ll lll=max(1ll<<i,l);
-		ll rrr=min((1ll<<(i+1))-1,r);
-		if(rrr-lll<=0)continue;
-		ll cnt=0;
-		rep(j,i){
-			if(((1ll<<(j))&rrr)&&(!((1ll<<(j))&lll)))cnt++;
-		}
-		ll tab=1;
-		rep(j,cnt){
-			tab*=2;tab%=MOD;
-		}
-		tab=(tab*(tab+1)/2)%MOD;
-		ans+=tab;
-
-		puta(i,lll,rrr);
+	ll n,m,p;
+	cin>>n>>m>>p;
+	BellmanFord<ll> g(n);
+	rep(i,m){
+		ll a,b,c;
+		cin>>a>>b>>c;
+		a--;b--;
+		g.add(a,b,-(c-p),true);
 	}
-	cout<<ans<<endl;
+	ll ans=g.dist(0,n-1);
+	ll out=0;
+	if(ans==-4611686018427387903)out=-1;
+	else if(ans>0)out=0;
+	else out=-ans;
+	cout<<out<<endl;;
 }

@@ -52,18 +52,19 @@ int main(){
 	ios::sync_with_stdio(false);
 	int n;
 	cin>>n;
-	vs ss(n);
-	map<vi,ll> mp;
+	priority_queue<double> q;
 	rep(i,n){
-		cin>>ss[i];
-		vi v(26);
-		rep(j,ss[i].size())v[ss[i][j]-'a']++;
-		mp[v]++;
+		double in;
+		cin>>in;
+		q.push(-in);
 	}
-	ll ans=0;
-	for(auto x:mp){
-		ans+=x.sc*(x.sc-1)/2;
+	while(q.size()!=1){
+		double a,b;
+		a=q.top();q.pop();
+		b=q.top();q.pop();
+		q.push((a+b)/2);
 	}
-	cout<<ans<<endl;
+	cout<<-q.top()<<endl;
+
 
 }

@@ -50,25 +50,17 @@ template<class S>auto&operator<<(ostream&os,vector<S>t){bool a=1; for(auto s:t){
 int main(){
 	cin.tie(0);
 	ios::sync_with_stdio(false);
-	ll ans=0;
-	ll l,r;
-	cin>>l>>r;
-	rep(i,62){
-		ll lll=max(1ll<<i,l);
-		ll rrr=min((1ll<<(i+1))-1,r);
-		if(rrr-lll<=0)continue;
-		ll cnt=0;
-		rep(j,i){
-			if(((1ll<<(j))&rrr)&&(!((1ll<<(j))&lll)))cnt++;
+	int m,d;
+	cin>>m>>d;
+	int ans=0;
+	range(i,1,m+1){
+		range(j,1,d+1){
+			int da=j/10;
+			int db=j%10;
+			if(da>1&&db>1&&da*db==i){
+				ans++;
+			}
 		}
-		ll tab=1;
-		rep(j,cnt){
-			tab*=2;tab%=MOD;
-		}
-		tab=(tab*(tab+1)/2)%MOD;
-		ans+=tab;
-
-		puta(i,lll,rrr);
 	}
 	cout<<ans<<endl;
 }

@@ -50,21 +50,29 @@ template<class S>auto&operator<<(ostream&os,vector<S>t){bool a=1; for(auto s:t){
 int main(){
 	cin.tie(0);
 	ios::sync_with_stdio(false);
-	ll n,m,ans=0;
-	cin>>n>>m;
-	vl a(n),b(n);
-	rep(i,n)cin>>a[i]>>b[i];
-	vvl vm(100002);
-	rep(i,n){
-		vm[a[i]-1].push_back(b[i]);
+	ll n,q;
+	cin>>n>>q;
+	vl ans(n);
+	vvl g(n);
+			ll a,b;
+	rep(i,n-1){
+		cin>>a>>b;
+		g[a-1].push_back(b-1);
 	}
-	priority_queue<ll> q;
-	rep(i,m){
-		for(auto x:vm[i]){
-			q.push(x);
+	while(q--){
+		cin>>a>>b;
+		ans[a-1]+=b;
+	}
+	queue<ll> qu;
+	qu.push(0);
+	while(!qu.empty()){
+		int t=qu.front();qu.pop();
+		for(auto x:g[t]){
+			ans[x]+=ans[t];
+			qu.push(x);
 		}
-		if(q.empty())continue;
-		ans+=q.top();q.pop();
 	}
 	cout<<ans<<endl;
+
+	
 }

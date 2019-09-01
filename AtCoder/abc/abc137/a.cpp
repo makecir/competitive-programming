@@ -45,12 +45,13 @@ ll max(int a,ll b){return max((ll)a,b);} ll max(ll a,int b){return max(a,(ll)b);
 template<class T>void puta(T&&t){cout<<t<<"\n";}
 template<class H,class...T>void puta(H&&h,T&&...t){cout<<h<<' ';puta(t...);}
 template<class S,class T>ostream&operator<<(ostream&os,pair<S,T>p){os<<"["<<p.first<<", "<<p.second<<"]";return os;};
-template<class S>auto&operator<<(ostream&os,vector<S>t){bool a=1; for(auto s:t){os<<(a?"":" ")<<s;a=0;} return os;}
+template<class S>auto&operator<<(ostream&os,vector<S>t){bool a=1; for(auto s:t){os<<(a?"":" ")<<s;a=0;} return os;};
 
 int main(){
 	cin.tie(0);
 	ios::sync_with_stdio(false);
-	int a,b;
-	cin>>a>>b;
-	cout<<max({a+b,a-b,a*b})<<endl;;
+	int n;
+	string s;
+	cin>>n>>s;
+	cout<<(n<3200?"red":s)<<endl;
 }

@@ -50,25 +50,23 @@ template<class S>auto&operator<<(ostream&os,vector<S>t){bool a=1; for(auto s:t){
 int main(){
 	cin.tie(0);
 	ios::sync_with_stdio(false);
-	ll ans=0;
-	ll l,r;
-	cin>>l>>r;
-	rep(i,62){
-		ll lll=max(1ll<<i,l);
-		ll rrr=min((1ll<<(i+1))-1,r);
-		if(rrr-lll<=0)continue;
-		ll cnt=0;
+	ll n,k;
+	cin>>n>>k;
+	vl v(n);
+	set<ll> s;
+	rep(i,n)cin>>v[i];
+	ll t=0;
+	ll ss=0;
+	rep(i,n){
 		rep(j,i){
-			if(((1ll<<(j))&rrr)&&(!((1ll<<(j))&lll)))cnt++;
+			if(v[j]>v[i])t++;
 		}
-		ll tab=1;
-		rep(j,cnt){
-			tab*=2;tab%=MOD;
-		}
-		tab=(tab*(tab+1)/2)%MOD;
-		ans+=tab;
-
-		puta(i,lll,rrr);
 	}
-	cout<<ans<<endl;
+	rep(i,n){
+		rep(j,n){
+			if(v[j]<v[i])ss++;
+		}
+	}
+	ll kk=((((k*(k-1))/2)%MOD)*ss)%MOD;
+	cout<<((t*k)%MOD+kk)%MOD<<endl;
 }

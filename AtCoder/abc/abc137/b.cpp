@@ -50,9 +50,13 @@ template<class S>auto&operator<<(ostream&os,vector<S>t){bool a=1; for(auto s:t){
 int main(){
 	cin.tie(0);
 	ios::sync_with_stdio(false);
-	ll k,x;
-	cin>>k>>x;
-	vl ans;
-	for(int i=x-k+1;i<x+k;i++)ans.push_back(i);
-	cout<<ans<<endl;
+	ll n;
+	cin>>n;
+	double b=0;
+	rep(i,n){
+		double d;
+		cin>>d;
+		b+=(1/d);
+	}
+	fcout(7)<<1/b<<endl;
 }
