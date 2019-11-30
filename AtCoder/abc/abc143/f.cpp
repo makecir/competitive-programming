@@ -59,10 +59,11 @@ int main(){
 		num[v[i]-1]++;
 	}
 	sort(rall(num));
+	vl ans(n);
 	ll sum=0;
 	rep(i,n){
 		sum+=num[i];
-		cout<<max(0,min(n-sum+num[i],n/(i+1)))<<"\n";
+		cout<<min(n-sum+num[i],n/(i+1))<<"\n";
 		//puta(i+1,sum);
 	}
 }
