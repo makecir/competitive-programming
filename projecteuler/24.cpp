@@ -52,5 +52,30 @@ template<class S>auto&operator<<(ostream&os,vector<S>t){bool a=1; for(auto s:t){
 int main(){
 	cin.tie(0);
 	ios::sync_with_stdio(false);
-	
+	ll n=10,k=1000000-1;
+	vl frac(n);
+	frac[0]=1;
+	range(i,1,n)frac[i]=frac[i-1]*(i+1);
+	vb b(n,true);
+	vl ans;
+	rep(i,n){
+		ll tar=0;
+		while(k>=frac[n-2-i]){
+			k-=frac[n-2-i];
+			tar++;
+		}
+		ll cnt=0;
+		rep(j,n){
+			if(b[j]){
+				if(cnt==tar){
+					b[j]=false;
+					ans.push_back(j);
+					j=n;
+				}
+				cnt++;
+			}
+		}
+	}
+	cout<<ans<<endl;
 }
+

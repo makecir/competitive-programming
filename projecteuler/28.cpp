@@ -52,5 +52,14 @@ template<class S>auto&operator<<(ostream&os,vector<S>t){bool a=1; for(auto s:t){
 int main(){
 	cin.tie(0);
 	ios::sync_with_stdio(false);
-	
+	ll ans=1,cur=1;
+	ll n=501;
+	rep(i,n-1){
+		rep(j,4){
+			cur+=2*(i+1);
+			ans+=cur;
+		}
+	}
+	puta(ans);
 }
+

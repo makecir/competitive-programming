@@ -52,5 +52,12 @@ template<class S>auto&operator<<(ostream&os,vector<S>t){bool a=1; for(auto s:t){
 int main(){
 	cin.tie(0);
 	ios::sync_with_stdio(false);
-	
+	ll a,b,n;
+	cin>>n>>a>>b;
+	ll ans;
+	if(abs(a-b)%2==0)ans=(abs(a-b))/2;
+	else{
+		ans=min((a-1+b-1+1)/2,(n-a+n-b+1)/2);
+	}
+	cout<<ans<<endl;
 }

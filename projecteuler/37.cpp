@@ -47,10 +47,37 @@ ll max(int a,ll b){return max((ll)a,b);} ll max(ll a,int b){return max(a,(ll)b);
 template<class T>void puta(T&&t){cout<<t<<"\n";}
 template<class H,class...T>void puta(H&&h,T&&...t){cout<<h<<' ';puta(t...);}
 template<class S,class T>ostream&operator<<(ostream&os,pair<S,T>p){os<<"["<<p.first<<", "<<p.second<<"]";return os;};
-template<class S>auto&operator<<(ostream&os,vector<S>t){bool a=1; for(auto s:t){os<<(a?"":" ")<<s;a=0;} return os;}
+template<class S>auto&operator<<(ostream&os,vector<S>t){bool a=1; for(auto s:t){os<<(a?"":" ")<<s;a=0;} return os;};
+bool isPrime(ll n){
+	if(n==1)return false;
+	for(ll i=2;i*i<=n;i++)if(n%i==0)return false;
+	return true;
+}
+bool check(ll x){
+	bool ok=true;
+	ll cur=x;
+	while(cur){
+		ok&=isPrime(cur);
+		cur/=10;
+	}
+	ll p=10;
+	while(x/p){
+		ok&=isPrime(x%p);
+		p*=10;
+	}
+	return ok;
+}
 
 int main(){
 	cin.tie(0);
 	ios::sync_with_stdio(false);
-	
+	ll ans=0,cnt=0;
+	range(i,10,10000000){
+		if(check(i)){
+			cnt++;ans+=i;
+			//puta(i);
+		}
+		if(cnt==11)break;
+	}
+	puta(ans);
 }

@@ -52,5 +52,12 @@ template<class S>auto&operator<<(ostream&os,vector<S>t){bool a=1; for(auto s:t){
 int main(){
 	cin.tie(0);
 	ios::sync_with_stdio(false);
-	
+	ll n,b=0,w=0;
+	cin>>n;
+	rep(i,n){
+		string s;
+		cin>>s;
+		(s=="black"?b:w)++;
+	}
+	cout<<(b>w?"black":"white")<<endl;
 }

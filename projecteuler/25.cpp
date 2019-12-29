@@ -52,5 +52,31 @@ template<class S>auto&operator<<(ostream&os,vector<S>t){bool a=1; for(auto s:t){
 int main(){
 	cin.tie(0);
 	ios::sync_with_stdio(false);
-	
+	ll n=100000;
+	vvl dp(2,vl(1200));
+	dp[0][0]=1;
+	dp[1][0]=1;
+	bool next=true;
+	rep(i,n){
+		rrep(j,1200){
+			ll tar=j;
+			ll cnt=dp[!next][j]+dp[next][j];
+			dp[next][j]=cnt%10;
+			while(cnt>9){
+				tar++;
+				cnt=dp[next][tar]+cnt/10;
+				dp[next][tar]=cnt%10;
+			}
+		}
+		if(dp[next][999]){
+			puta(i+3);
+			return 0;
+		}
+		next=!next;
+	}
+	rep(i,10)cout<<dp[0][i]<<" ";
+	//ll ans=0;
+	//rep(i,dp.size())ans+=dp[i];
+	//cout<<ans<<endl;
 }
+

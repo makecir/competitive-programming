@@ -52,5 +52,10 @@ template<class S>auto&operator<<(ostream&os,vector<S>t){bool a=1; for(auto s:t){
 int main(){
 	cin.tie(0);
 	ios::sync_with_stdio(false);
-	
+	ll n,m;
+	cin>>n>>m;
+	vl v(n);
+	rep(i,n)cin>>v[i];
+	sort(all(v));
+	puta(v);
 }

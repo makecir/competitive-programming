@@ -49,8 +49,27 @@ template<class H,class...T>void puta(H&&h,T&&...t){cout<<h<<' ';puta(t...);}
 template<class S,class T>ostream&operator<<(ostream&os,pair<S,T>p){os<<"["<<p.first<<", "<<p.second<<"]";return os;};
 template<class S>auto&operator<<(ostream&os,vector<S>t){bool a=1; for(auto s:t){os<<(a?"":" ")<<s;a=0;} return os;}
 
+
+map<ll,int> primeFactorMp(ll n){
+	map<ll,int> ret;
+	for(ll i=2;i*i<=n;i++)if(n%i==0){n/=i;ret[i--]++;}
+	if(n-1)ret[n]++;
+	return ret;
+}
 int main(){
 	cin.tie(0);
 	ios::sync_with_stdio(false);
-	
+	ll st=1,dif=2;
+	while(1){
+		ll cnt=1;
+		auto mp=primeFactorMp(st);
+		for(auto x:mp){
+			cnt*=(x.sc+1);
+		}
+		if(cnt>500)break;
+		st+=dif;
+		dif++;
+
+	}
+	cout<<st<<endl;
 }

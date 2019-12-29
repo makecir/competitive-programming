@@ -48,9 +48,50 @@ template<class T>void puta(T&&t){cout<<t<<"\n";}
 template<class H,class...T>void puta(H&&h,T&&...t){cout<<h<<' ';puta(t...);}
 template<class S,class T>ostream&operator<<(ostream&os,pair<S,T>p){os<<"["<<p.first<<", "<<p.second<<"]";return os;};
 template<class S>auto&operator<<(ostream&os,vector<S>t){bool a=1; for(auto s:t){os<<(a?"":" ")<<s;a=0;} return os;}
+constexpr ll gcd(ll a,ll b){return b?gcd(b,a%b):a;}
+constexpr ll lcm(ll a,ll b){return a/gcd(a,b)*b;}
+bool check(ll a,ll b,ll x){
+	if(x==0||b%11==0)return false;
+	ll aa=a,bb=b;
+	bool er=false;
+	if(a/10==x){
+		a%=10;
+		er=true;
+	}
+	if(a%10==x){
+		a=(a/10);
+		er=true;
+	}
+	if(b/10==x){
+		b%=10;
+		er=true;
+	}
+	if(b%10==x){
+		b=(b/10);
+		er=true;
+	}
+	if(!er)return false;
+	return (aa*b==bb*a);
+}
 
 int main(){
 	cin.tie(0);
 	ios::sync_with_stdio(false);
-	
+	ll p=1,q=1;
+	range(a,10,100)range(b,a+1,100){
+		set<ll> s;
+		s.insert(a/10);
+		s.insert(a%10);
+		s.insert(b/10);
+		s.insert(b%10);
+		for(auto x:s){
+			if(check(a,b,x)){
+				p*=a;
+				q*=b;
+				puta(a,b,x);
+			}
+		}
+	}
+	puta(q/gcd(p,q));
 }
+

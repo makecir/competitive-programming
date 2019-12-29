@@ -48,9 +48,12 @@ template<class T>void puta(T&&t){cout<<t<<"\n";}
 template<class H,class...T>void puta(H&&h,T&&...t){cout<<h<<' ';puta(t...);}
 template<class S,class T>ostream&operator<<(ostream&os,pair<S,T>p){os<<"["<<p.first<<", "<<p.second<<"]";return os;};
 template<class S>auto&operator<<(ostream&os,vector<S>t){bool a=1; for(auto s:t){os<<(a?"":" ")<<s;a=0;} return os;}
-
+constexpr ll gcd(ll a,ll b){return b?gcd(b,a%b):a;}
+constexpr ll lcm(ll a,ll b){return a/gcd(a,b)*b;}
 int main(){
 	cin.tie(0);
 	ios::sync_with_stdio(false);
-	
+	ll a,b;
+	cin>>a>>b;
+	cout<<lcm(a,b)<<endl;
 }

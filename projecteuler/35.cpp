@@ -49,8 +49,28 @@ template<class H,class...T>void puta(H&&h,T&&...t){cout<<h<<' ';puta(t...);}
 template<class S,class T>ostream&operator<<(ostream&os,pair<S,T>p){os<<"["<<p.first<<", "<<p.second<<"]";return os;};
 template<class S>auto&operator<<(ostream&os,vector<S>t){bool a=1; for(auto s:t){os<<(a?"":" ")<<s;a=0;} return os;}
 
+bool isPrime(ll n){
+	if(n==1)return false;
+	for(ll i=2;i*i<=n;i++)if(n%i==0)return false;
+	return true;
+}
 int main(){
 	cin.tie(0);
 	ios::sync_with_stdio(false);
-	
+	vb v(1000000,false);
+	ll ans=0;
+	rep(i,1000000)v[i]=isPrime(i);
+	range(i,2,1000000){
+		bool ok=true;
+		ll cur=i;
+		ll len=log(i)/log(10.0)+1;
+		rep(j,len){
+			cur=cur/10+pow(10,len-1)*(cur%10);
+			//puta(cur);
+			ok&=v[cur];
+		}
+		if(ok)ans++;
+		//if(ok)puta(i);
+	}
+	cout<<ans<<endl;
 }

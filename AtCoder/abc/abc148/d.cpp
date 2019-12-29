@@ -48,9 +48,33 @@ template<class T>void puta(T&&t){cout<<t<<"\n";}
 template<class H,class...T>void puta(H&&h,T&&...t){cout<<h<<' ';puta(t...);}
 template<class S,class T>ostream&operator<<(ostream&os,pair<S,T>p){os<<"["<<p.first<<", "<<p.second<<"]";return os;};
 template<class S>auto&operator<<(ostream&os,vector<S>t){bool a=1; for(auto s:t){os<<(a?"":" ")<<s;a=0;} return os;}
-
+template<class T=ll>struct Graph{
+	int n;
+	vector<vector<tuple<ll,T>>>edge;
+	Graph(int N=1):n(N){edge.resize(n);}
+	void add(ll f,ll t,T c,bool d=false){
+		edge[f].emplace_back(t,c);
+		if(!d)edge[t].emplace_back(f,c);
+	}
+	void view(){
+		rep(i,n)for(auto&e:edge[i])
+			puta(i,"=>",get<0>(e),", cost :",get<1>(e));
+	}
+};
 int main(){
 	cin.tie(0);
 	ios::sync_with_stdio(false);
-	
+	ll n;
+	cin>>n;
+	vl v(n);
+	rep(i,n)cin>>v[i];
+	ll cnt=1;
+	rep(i,n){
+		if(v[i]==cnt)cnt++;
+	}
+	if(cnt==1)cout<<-1<<endl;
+	else{
+		cout<<n-cnt+1<<endl;
+	}
+
 }

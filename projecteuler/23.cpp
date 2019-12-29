@@ -49,8 +49,45 @@ template<class H,class...T>void puta(H&&h,T&&...t){cout<<h<<' ';puta(t...);}
 template<class S,class T>ostream&operator<<(ostream&os,pair<S,T>p){os<<"["<<p.first<<", "<<p.second<<"]";return os;};
 template<class S>auto&operator<<(ostream&os,vector<S>t){bool a=1; for(auto s:t){os<<(a?"":" ")<<s;a=0;} return os;}
 
+map<ll,int> primeFactorMp(ll n){
+	map<ll,int> ret;
+	for(ll i=2;i*i<=n;i++)if(n%i==0){n/=i;ret[i--]++;}
+	if(n-1)ret[n]++;
+	return ret;
+}
+ll sum_divisor(ll n){
+	auto mp=primeFactorMp(n);
+	ll ret=1;
+	for(auto x:mp){
+		ll cnt=1,sum=0;
+		rep(i,x.sc+1){
+			sum+=cnt;
+			cnt*=x.fs;
+		}
+		ret*=sum;
+	}
+	return ret;
+}
+
 int main(){
 	cin.tie(0);
 	ios::sync_with_stdio(false);
-	
+	ll n=28123;
+	ll ans=0;
+	vl sd(n+1);
+	set<ll> s;
+	range(i,1,n+1){
+		sd[i]=sum_divisor(i)-i;
+		if(sd[i]>i)s.insert(i);
+	}
+	vb b(n+1,false);
+	//puta(s.size());
+	for(auto x:s)for(auto y:s){
+		if(x+y<=n)b[x+y]=true;
+	}
+	range(i,1,n+1){
+		if(!b[i])ans+=i;
+	}
+	puta(ans);
 }
+

@@ -52,5 +52,27 @@ template<class S>auto&operator<<(ostream&os,vector<S>t){bool a=1; for(auto s:t){
 int main(){
 	cin.tie(0);
 	ios::sync_with_stdio(false);
-	
+	string s;
+	cin>>s;
+	vs v;
+	ll cur=0;
+	bool fl=true;
+	rep(i,s.size()){
+		if(s[i]>='A'&&s[i]<='Z'){
+			if(fl)cur=i;
+			else{
+				string tmp=s.substr(cur,i-cur+1);
+				transform(all(tmp), tmp.begin(), ::tolower);
+				v.push_back(tmp);
+			}
+			fl=!fl;
+		}
+	}
+	sort(all(v));
+	rep(i,v.size()){
+		v[i][0]=toupper(v[i][0]);
+		v[i].back()=toupper(v[i].back());
+		cout<<v[i];
+	}
+	cout<<endl;
 }

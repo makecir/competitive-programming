@@ -48,9 +48,42 @@ template<class T>void puta(T&&t){cout<<t<<"\n";}
 template<class H,class...T>void puta(H&&h,T&&...t){cout<<h<<' ';puta(t...);}
 template<class S,class T>ostream&operator<<(ostream&os,pair<S,T>p){os<<"["<<p.first<<", "<<p.second<<"]";return os;};
 template<class S>auto&operator<<(ostream&os,vector<S>t){bool a=1; for(auto s:t){os<<(a?"":" ")<<s;a=0;} return os;}
-
+struct UnionFind{
+    vl par,dist;
+    UnionFind(int x){par.assign(x,-1); dist.assign(x,0);}
+    ll find(ll x){return par[x]<0?x:find(par[x]);}
+    ll depth(ll x){return par[x]<0?0:depth(par[x])+dist[x];}
+    bool same(ll x,ll y){return find(x)==find(y);}
+    ll size(ll x){return -par[find(x)];}
+    ll diff(ll x,ll y){return same(x,y)?depth(x)-depth(y):LINF;}
+    void unite(ll x,ll y,ll k=0){
+        k+=depth(y); k-=depth(x); k=-k;
+        x=find(x); y=find(y);
+        if(x==y)return;
+        if(size(x)<size(y)){swap(x,y);k=-k;}
+        par[x]+=par[y]; par[y]=x; dist[y]=k;
+    }
+};
 int main(){
 	cin.tie(0);
 	ios::sync_with_stdio(false);
-	
+	ll h,w;
+	char c;
+	cin>>h>>w;
+	vvb vv(h+2,vb(w+2,false));
+	rep(i,h)rep(j,w){
+		cin>>c;
+		if(c=='.')vv[i+1][j+1]=true;
+	}
+	UnionFind u((h+2)*(w+2));
+	range(i,1,h+1)range(j,1,w+1){
+		if(vv[i][j]&&vv[i+1][j])u.unite(i*w+j,(i+1)*w+j);
+		if(vv[i][j]&&vv[i][j+1])u.unite(i*w+j,(i)*w+j+1);
+	}
+	ll q,a,b,l;
+	cin>>q;
+	while(q--){
+		cin>>a>>b>>l;
+		cout<<u.size(a*w+b)<<endl;
+	}
 }

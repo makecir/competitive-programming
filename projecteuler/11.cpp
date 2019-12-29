@@ -52,5 +52,23 @@ template<class S>auto&operator<<(ostream&os,vector<S>t){bool a=1; for(auto s:t){
 int main(){
 	cin.tie(0);
 	ios::sync_with_stdio(false);
-	
+	ll n=20;
+	ll ans=0;
+	ll dx[8]={1,1,0,-1,-1,-1,0,1};
+	ll dy[8]={0,1,1,1,0,-1,-1,-1};
+	vvl vv(n,vl(n));
+	rep(i,n)rep(j,n)cin>>vv[i][j];
+	rep(i,n)rep(j,n){
+		rep(k,8){
+			ll sum=1;
+			rep(l,4){
+				ll x=i+dx[k]*l;
+				ll y=j+dy[k]*l;
+				if(x<0||n<=x||y<0||n<=y)continue;
+				sum*=vv[x][y];
+			}
+			chmax(ans,sum);
+		}
+	}
+	cout<<ans<<endl;
 }

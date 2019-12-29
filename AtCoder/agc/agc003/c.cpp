@@ -52,5 +52,18 @@ template<class S>auto&operator<<(ostream&os,vector<S>t){bool a=1; for(auto s:t){
 int main(){
 	cin.tie(0);
 	ios::sync_with_stdio(false);
-	
+	ll n,dif=0;
+	cin>>n;
+	vl v(n),u(n);
+	rep(i,n)cin>>v[i],u[i]=v[i];
+	map<ll,ll> mp;
+	sort(all(u));
+	rep(i,n)mp[u[i]]=i;
+	rep(i,n){
+		if(mp[v[i]]%2!=i%2)dif++;
+	}
+	cout<<dif/2<<endl;;
+
+
+
 }

@@ -52,5 +52,12 @@ template<class S>auto&operator<<(ostream&os,vector<S>t){bool a=1; for(auto s:t){
 int main(){
 	cin.tie(0);
 	ios::sync_with_stdio(false);
-	
+	ll n=50,ans=0;
+	vl r(n+1),b(n+1),g(n+1);
+	r[0]=1;g[0]=1;b[0]=1;
+	rep(i,n+1)rep(j,i-2+1)r[i]+=r[j];
+	rep(i,n+1)rep(j,i-3+1)g[i]+=g[j];
+	rep(i,n+1)rep(j,i-4+1)b[i]+=b[j];
+	range(i,1,n+1)ans+=(r[i]+g[i]+b[i]);
+	puta(ans);
 }

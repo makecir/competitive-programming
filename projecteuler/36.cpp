@@ -48,9 +48,28 @@ template<class T>void puta(T&&t){cout<<t<<"\n";}
 template<class H,class...T>void puta(H&&h,T&&...t){cout<<h<<' ';puta(t...);}
 template<class S,class T>ostream&operator<<(ostream&os,pair<S,T>p){os<<"["<<p.first<<", "<<p.second<<"]";return os;};
 template<class S>auto&operator<<(ostream&os,vector<S>t){bool a=1; for(auto s:t){os<<(a?"":" ")<<s;a=0;} return os;}
+int clz(ll x){return 64 - __builtin_clzll(x);}
+
+bool check(ll x){
+	bool a=true,b=true;
+	string str=to_string(x);
+	rep(i,str.size()){
+		a&=(str[i]==str[str.size()-i-1]);
+	}
+	ll len=clz(x);
+	rep(i,len){
+		b&=((((1ll<<i)&x)==0)==(((1ll<<(len-i-1))&x)==0));
+	}
+	return a&&b;
+}
 
 int main(){
 	cin.tie(0);
 	ios::sync_with_stdio(false);
-	
+	ll ans=0;
+	range(i,1,1000000){
+		if(check(i))ans+=i;
+	}
+	puta(ans);
 }
+

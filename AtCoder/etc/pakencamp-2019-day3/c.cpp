@@ -52,5 +52,23 @@ template<class S>auto&operator<<(ostream&os,vector<S>t){bool a=1; for(auto s:t){
 int main(){
 	cin.tie(0);
 	ios::sync_with_stdio(false);
+	ll n,m,ans=0;
+	cin>>n>>m;
+	vvl vv(n,vl(m));
+	rep(i,n){
+		rep(j,m){
+			cin>>vv[i][j];
+		}
+	}
 	
+	rep(i,m){
+		rep(j,i){
+			ll score=0;
+			rep(k,n){
+				score+=max(vv[k][i],vv[k][j]);
+			}
+			chmax(ans,score);
+		}
+	}
+	cout<<ans<<endl;
 }

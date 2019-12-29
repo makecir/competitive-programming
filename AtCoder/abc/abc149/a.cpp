@@ -52,5 +52,8 @@ template<class S>auto&operator<<(ostream&os,vector<S>t){bool a=1; for(auto s:t){
 int main(){
 	cin.tie(0);
 	ios::sync_with_stdio(false);
-	
+	string a,b;
+	cin>>b>>a;
+	cout<<a<<b<<endl;
+
 }

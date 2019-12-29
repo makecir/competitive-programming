@@ -52,5 +52,10 @@ template<class S>auto&operator<<(ostream&os,vector<S>t){bool a=1; for(auto s:t){
 int main(){
 	cin.tie(0);
 	ios::sync_with_stdio(false);
-	
+	ll n=100,ssum=0;
+	range(i,1,n+1){
+		ssum+=i*i;
+	}
+	ll sum=n*(n+1)/2;
+	cout<<sum*sum-ssum;
 }

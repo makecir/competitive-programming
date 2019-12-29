@@ -52,5 +52,14 @@ template<class S>auto&operator<<(ostream&os,vector<S>t){bool a=1; for(auto s:t){
 int main(){
 	cin.tie(0);
 	ios::sync_with_stdio(false);
-	
+	vl c={1,2,5,10,20,50,100,200};
+	vl dp(201);
+	dp[0]=1;
+	rep(i,c.size()){
+		rep(j,201){
+			if(j-c[i]>=0)dp[j]+=dp[j-c[i]];
+		}
+	}
+	puta(dp[200]);
 }
+

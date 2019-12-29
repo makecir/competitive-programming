@@ -52,5 +52,35 @@ template<class S>auto&operator<<(ostream&os,vector<S>t){bool a=1; for(auto s:t){
 int main(){
 	cin.tie(0);
 	ios::sync_with_stdio(false);
-	
+	ll n=1000;
+	vl len(n+1,0);
+	vl num={0,3,3,5,4,4,3,5,5,4};
+	vl ten={0,3,6,6,5,5,5,7,6,6};
+	vl etot={3,6,6,8,8,7,7,9,8,8};
+	range(i,1,n+1){
+		ll cnt=0;
+		if(i<10)len[i]=num[i];
+		else if(i<20)len[i]=etot[i-10];
+		else if(i==1000)len[i]=11;
+		else{
+			if(i/100){
+				cnt=num[i/100]+7;
+				if(i%100)cnt+=3;
+			}
+			if((i%100)){
+				if((i%100)/10!=1){
+					cnt+=ten[(i%100)/10];
+					if(i%10)cnt+=num[i%10];
+				}
+				else cnt+=etot[(i%100)%10];
+			}
+					len[i]=cnt;
+		}
+	}
+	ll ans=0;
+	rep(i,n+1){
+		//puta(i,len[i]);
+		ans+=len[i];
+	}
+	puta(ans);
 }

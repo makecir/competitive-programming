@@ -52,5 +52,30 @@ template<class S>auto&operator<<(ostream&os,vector<S>t){bool a=1; for(auto s:t){
 int main(){
 	cin.tie(0);
 	ios::sync_with_stdio(false);
-	
+	ll n,m,v,p;
+	cin>>n>>m>>v>>p;
+	vl a(n);
+	rep(i,n)cin>>a[i];
+	sort(all(a));
+	ll ok=n-1,ng=-1;
+	while(ok-ng>1){
+		ll mid=(ok+ng)/2;
+		ll z=max(0ll,v-(mid+1)-(p-1));
+		ll tar=mid+1;
+		ll sum=z*m;
+		//puta(mid,z,sum);
+		for(;tar<=n-p;tar++){
+			ll sub=a[mid]+m-a[tar];
+			ll dif=min(sum,min(sub,m));
+			sum-=dif;
+		}
+		//puta("!",sum,a[n-p]-sum,a[mid]+m);
+		if(sum>0||a[n-p]+sum>a[mid]+m){
+			ng=mid;//puta(mid,"f");
+		}
+		else{
+			ok=mid;//puta(mid,"t");
+		}
+	}
+	cout<<n-ok<<endl;;
 }

@@ -48,9 +48,84 @@ template<class T>void puta(T&&t){cout<<t<<"\n";}
 template<class H,class...T>void puta(H&&h,T&&...t){cout<<h<<' ';puta(t...);}
 template<class S,class T>ostream&operator<<(ostream&os,pair<S,T>p){os<<"["<<p.first<<", "<<p.second<<"]";return os;};
 template<class S>auto&operator<<(ostream&os,vector<S>t){bool a=1; for(auto s:t){os<<(a?"":" ")<<s;a=0;} return os;}
+template<class T=ll>struct Graph{
+	int n;
+	vector<vector<tuple<ll,T>>>edge;
+	Graph(int N=1):n(N){edge.resize(n);}
+	void add(ll f,ll t,T c,bool d=false){
+		edge[f].emplace_back(t,c);
+		if(!d)edge[t].emplace_back(f,c);
+	}
+	void view(){
+		rep(i,n)for(auto&e:edge[i])
+			puta(i,"=>",get<0>(e),", cost :",get<1>(e));
+	}
+};
+
+template<class T=ll>struct Dijkstra:Graph<T>{
+	using Graph<T>::Graph;
+	Dijkstra(int N=1):Graph<T>::Graph(N){}
+	const T mval=numeric_limits<T>::max()/2;
+	vector<T>dist(ll s){
+		vector<T> ret(this->n,mval);
+		priority_queue<tuple<T,ll>> q;
+		q.emplace(T(),s);
+		while(!q.empty()){
+			T c; ll p; tie(c,p)=q.top(); q.pop();
+			if(ret[p]!=mval)continue;
+			ret[p]=c=-c;
+			for(auto&e:this->edge[p]){
+				ll nxt;T cost;
+				tie(nxt,cost)=e;
+				if(ret[nxt]<=ret[p]+cost)continue;
+				q.emplace(-ret[p]-cost,nxt);
+			}
+		}
+		return ret;
+	}
+	T dist(ll s,ll t){return dist(s)[t];}
+};
+ll h,w;
+int castl(ll a,ll b){	
+	return a*w+b;
+}
 
 int main(){
 	cin.tie(0);
 	ios::sync_with_stdio(false);
-	
+	cin>>h>>w;
+	vvl vv(h,vl(w));
+	rep(i,h)rep(j,w)cin>>vv[i][j];
+	Dijkstra<ll> a(h*w),b(h*w),c(h*w);
+	rep(i,h)rep(j,w){
+		if(i!=0){
+			a.add(castl(i-1,j),castl(i,j),vv[i][j],true);
+			b.add(castl(i-1,j),castl(i,j),vv[i][j],true);
+			c.add(castl(i-1,j),castl(i,j),vv[i][j],true);
+		}
+		if(j!=0){
+			a.add(castl(i,j-1),castl(i,j),vv[i][j],true);
+			b.add(castl(i,j-1),castl(i,j),vv[i][j],true);
+			c.add(castl(i,j-1),castl(i,j),vv[i][j],true);
+		}
+		if(i!=h-1){
+			a.add(castl(i+1,j),castl(i,j),vv[i][j],true);
+			b.add(castl(i+1,j),castl(i,j),vv[i][j],true);
+			c.add(castl(i+1,j),castl(i,j),vv[i][j],true);
+		}
+		if(j!=w-1){
+			a.add(castl(i,j+1),castl(i,j),vv[i][j],true);
+			b.add(castl(i,j+1),castl(i,j),vv[i][j],true);
+			c.add(castl(i,j+1),castl(i,j),vv[i][j],true);
+		}
+	}
+	vl aa=a.dist(castl(h-1,0));
+	vl bb=b.dist(castl(h-1,w-1));
+	vl cc=c.dist(castl(0,w-1));
+	ll ans=LINF;
+
+	rep(i,h*w){
+		chmin(ans,aa[i]+bb[i]+cc[i]-vv[i/w][i%w]*2);
+	}
+	puta(ans);
 }

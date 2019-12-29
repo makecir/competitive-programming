@@ -52,5 +52,33 @@ template<class S>auto&operator<<(ostream&os,vector<S>t){bool a=1; for(auto s:t){
 int main(){
 	cin.tie(0);
 	ios::sync_with_stdio(false);
-	
+	ll n,ans=-LINF,in;
+	cin>>n;
+	vvl vv(n,vl(n,0));
+	rep(i,n-1){
+		range(j,i+1,n){
+			cin>>in;
+			vv[i][j]=vv[j][i]=in;
+		}
+	}
+	rep(i,pow(3,n)){
+		ll ms=i,score=0;
+		vvl tmp(3);
+		rep(j,n){
+			tmp[ms%3].push_back(j);
+			ms/=3;
+		}
+		rep(j,3){
+			rep(k,tmp[j].size()){
+				range(l,k+1,tmp[j].size()){
+					score+=vv[(int)tmp[j][k]][(int)tmp[j][l]];
+				}
+			}
+		}
+		chmax(ans,score);
+	}
+	puta(ans);
+
+
+
 }

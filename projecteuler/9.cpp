@@ -52,5 +52,12 @@ template<class S>auto&operator<<(ostream&os,vector<S>t){bool a=1; for(auto s:t){
 int main(){
 	cin.tie(0);
 	ios::sync_with_stdio(false);
-	
+	ll n=100,ans;
+	range(i,1,1001){
+		range(j,1,1001-i){
+			ll k=1000-i-j;
+			if(i*i+j*j==k*k)ans=i*j*k;
+		}
+	}
+	cout<<ans;
 }

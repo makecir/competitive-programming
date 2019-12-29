@@ -52,5 +52,35 @@ template<class S>auto&operator<<(ostream&os,vector<S>t){bool a=1; for(auto s:t){
 int main(){
 	cin.tie(0);
 	ios::sync_with_stdio(false);
+	ll n,k;
+	vl sc(3);
+	string t;
+	cin>>n>>k>>sc[0]>>sc[1]>>sc[2]>>t;
+	vl op(n);
+	rep(i,n){
+		if(t[i]=='r')op[i]=2;
+		if(t[i]=='s')op[i]=0;
+		if(t[i]=='p')op[i]=1;
+	}
+	ll ans=0;
+	rep(i,k){
+		ll len=(n-i-1)/k+1;
+		vvl dp(3,vl(len,0));
+		rep(j,len){
+			rep(l,3){
+				if(j==0){if(op[i]==l)dp[l][j]=sc[l];}
+				else{
+					rep(q,3){
+						if(l==q)continue;
+						chmax(dp[l][j],dp[q][j-1]+(op[j*k+i]==l?sc[l]:0));
+					}
+				}
+			}
+		}
+		//rep(j,3)puta(i,j,dp[j]);
+		ans+=max({dp[0].back(),dp[1].back(),dp[2].back()});
+		//puta(ans);
+	}
 	
+	cout<<ans<<endl;
 }

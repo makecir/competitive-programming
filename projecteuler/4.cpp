@@ -49,8 +49,20 @@ template<class H,class...T>void puta(H&&h,T&&...t){cout<<h<<' ';puta(t...);}
 template<class S,class T>ostream&operator<<(ostream&os,pair<S,T>p){os<<"["<<p.first<<", "<<p.second<<"]";return os;};
 template<class S>auto&operator<<(ostream&os,vector<S>t){bool a=1; for(auto s:t){os<<(a?"":" ")<<s;a=0;} return os;}
 
+bool check(ll a,ll b){
+	ll c=a*b;
+	string s=to_string(c);
+	bool ok=true;
+	rep(i,s.size()/2)ok&=(s[i]==s[s.size()-1-i]);
+	return ok;
+}
+
 int main(){
 	cin.tie(0);
 	ios::sync_with_stdio(false);
-	
+	ll ans=0;
+	range(i,1,1000)range(j,1,1000){
+		if(check(i,j))chmax(ans,(ll)i*j);
+	}
+	puta(ans);
 }

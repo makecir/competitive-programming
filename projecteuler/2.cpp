@@ -52,5 +52,13 @@ template<class S>auto&operator<<(ostream&os,vector<S>t){bool a=1; for(auto s:t){
 int main(){
 	cin.tie(0);
 	ios::sync_with_stdio(false);
-	
+	vl fib(100000);
+	ll ans=2;
+	fib[0]=1;fib[1]=2;
+	range(i,2,100000){
+		fib[i]=fib[i-1]+fib[i-2];
+		if(fib[i]>4000000)break;
+		if(fib[i]%2==0)ans+=fib[i];
+	}
+	puta(ans);
 }

@@ -52,5 +52,9 @@ template<class S>auto&operator<<(ostream&os,vector<S>t){bool a=1; for(auto s:t){
 int main(){
 	cin.tie(0);
 	ios::sync_with_stdio(false);
-	
+	ll ans=0;
+	range(i,1,1000){
+		if(i%3==0||i%5==0)ans+=i;
+	}
+	cout<<ans<<endl;
 }

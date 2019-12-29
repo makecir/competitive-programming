@@ -52,5 +52,18 @@ template<class S>auto&operator<<(ostream&os,vector<S>t){bool a=1; for(auto s:t){
 int main(){
 	cin.tie(0);
 	ios::sync_with_stdio(false);
-	
+	ll ans=0;
+	vl frac(10);
+	frac[1]=frac[0]=1;
+	range(i,2,10)frac[i]=i*frac[i-1];
+	range(i,3,3000000){
+		ll cal=i,sum=0;
+		while(cal){
+			sum+=frac[cal%10];
+			cal/=10;
+			if(sum>i)cal=0;
+		}
+		if(i==sum)ans+=i;
+	}
+	puta(ans);
 }

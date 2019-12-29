@@ -52,5 +52,13 @@ template<class S>auto&operator<<(ostream&os,vector<S>t){bool a=1; for(auto s:t){
 int main(){
 	cin.tie(0);
 	ios::sync_with_stdio(false);
-	
+	ll a,b,k;
+	cin>>a>>b>>k;
+	ll dif=min(a,k);
+	a-=dif;
+	k-=dif;
+	dif=min(b,k);
+	b-=dif;
+	k-=dif;
+	puta(a,b);
 }

@@ -48,9 +48,41 @@ template<class T>void puta(T&&t){cout<<t<<"\n";}
 template<class H,class...T>void puta(H&&h,T&&...t){cout<<h<<' ';puta(t...);}
 template<class S,class T>ostream&operator<<(ostream&os,pair<S,T>p){os<<"["<<p.first<<", "<<p.second<<"]";return os;};
 template<class S>auto&operator<<(ostream&os,vector<S>t){bool a=1; for(auto s:t){os<<(a?"":" ")<<s;a=0;} return os;}
+class compare {
+public:
+	bool operator()(tlll a, tlll b) {
+		return (get<1>(a) > get<1>(b));
+	}
 
+};
 int main(){
 	cin.tie(0);
 	ios::sync_with_stdio(false);
-	
+	ll n,w,c,ans=LINF;
+	cin>>n>>w>>c;
+	ll l,r,p;
+	vector<tlll> v(n);
+	priority_queue<tlll,vector<tlll>,compare> q;
+	rep(i,n)cin>>l>>r>>p,v[i]=(tlll(l+1,r-1,p));
+	sort(all(v));
+	ll cul=0,cur=0,pt=0,tmp=0;
+	while(pt!=n){
+		while(cul+c>cur&&pt!=n){
+			tie(l,r,p)=v[pt];
+			cur=r;
+			tmp+=p;
+			q.push(v[pt]);
+			pt++;
+		}
+		while(cul+c<=cur){
+			chmin(ans,tmp);
+			tie(l,r,p)=q.top();
+			puta(l,r,p);
+			tmp-=p;
+			cul=r+1;
+			puta(tmp,cul,cur);
+		}
+	}
+	puta(ans);
+
 }

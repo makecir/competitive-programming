@@ -49,8 +49,70 @@ template<class H,class...T>void puta(H&&h,T&&...t){cout<<h<<' ';puta(t...);}
 template<class S,class T>ostream&operator<<(ostream&os,pair<S,T>p){os<<"["<<p.first<<", "<<p.second<<"]";return os;};
 template<class S>auto&operator<<(ostream&os,vector<S>t){bool a=1; for(auto s:t){os<<(a?"":" ")<<s;a=0;} return os;}
 
+template<class T=ll>struct Graph{
+	int n;
+	vector<vector<tuple<ll,T>>>edge;
+	Graph(int N=1):n(N){edge.resize(n);}
+	void add(ll f,ll t,T c,bool d=false){
+		edge[f].emplace_back(t,c);
+		if(!d)edge[t].emplace_back(f,c);
+	}
+	void view(){
+		rep(i,n)for(auto&e:edge[i])
+			puta(i,"=>",get<0>(e),", cost :",get<1>(e));
+	}
+};
+template<class T=ll>struct Dijkstra:Graph<T>{
+	using Graph<T>::Graph;
+	Dijkstra(int N=1):Graph<T>::Graph(N){}
+	const T mval=numeric_limits<T>::max()/2;
+	vector<T>dist(ll s){
+		vector<T> ret(this->n,mval);
+		priority_queue<tuple<T,ll>> q;
+		q.emplace(T(),s);
+		while(!q.empty()){
+			T c; ll p; tie(c,p)=q.top(); q.pop();
+			if(ret[p]!=mval)continue;
+			ret[p]=c=-c;
+			for(auto&e:this->edge[p]){
+				ll nxt;T cost;
+				tie(nxt,cost)=e;
+				if(ret[nxt]<=ret[p]+cost)continue;
+				q.emplace(-ret[p]-cost,nxt);
+			}
+		}
+		return ret;
+	}
+	T dist(ll s,ll t){return dist(s)[t];}
+};
 int main(){
 	cin.tie(0);
 	ios::sync_with_stdio(false);
-	
+	ll n,u,v,a,b;
+	cin>>n>>u>>v;u--;v--;
+	Dijkstra<ll> g(n);
+	rep(i,n-1){
+		cin>>a>>b;
+		a--;b--;
+		g.add(a,b,1);
+	}
+	vl dv=g.dist(v);
+	vl du(n,LINF);
+	du[u]=0;
+	queue<ll> q;
+	q.push(u);
+	while(!q.empty()){
+		ll x;
+		x=q.front();q.pop();
+		for(auto y:g.edge[x]){
+			if(du[get<0>(y)]==LINF&&du[x]+1<=dv[get<0>(y)]){
+				du[get<0>(y)]=du[x]+1;
+				q.push(get<0>(y));
+			}
+		}
+	}
+	ll ans=0;
+	rep(i,n)if(du[i]<=dv[i]){chmax(ans,dv[i]);}
+	puta(ans-1);
+	//puta(dv);
 }

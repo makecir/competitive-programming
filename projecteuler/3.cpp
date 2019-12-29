@@ -52,5 +52,13 @@ template<class S>auto&operator<<(ostream&os,vector<S>t){bool a=1; for(auto s:t){
 int main(){
 	cin.tie(0);
 	ios::sync_with_stdio(false);
-	
+	ll sum=600851475143,ans=1;
+	for(ll i=2;i<=(sqrt(sum)+1);i++){
+		while(sum%i==0){
+			sum/=i;
+			chmax(ans,i);
+		}
+	}
+	chmax(ans,sum);
+	puta(ans);
 }

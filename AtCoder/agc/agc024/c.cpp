@@ -52,5 +52,16 @@ template<class S>auto&operator<<(ostream&os,vector<S>t){bool a=1; for(auto s:t){
 int main(){
 	cin.tie(0);
 	ios::sync_with_stdio(false);
-	
+	ll n;
+	cin>>n;
+	vl v(n);
+	rep(i,n)cin>>v[i];
+	v.push_back(0);
+	ll ans=0;
+	bool ok=(v[0]==0);
+	rrep(i,n){
+		ok&=(v[i]>=v[i+1]-1);
+		if(v[i]>v[i+1]-1)ans+=v[i];
+	}
+	cout<<(ok?ans:-1)<<endl;
 }

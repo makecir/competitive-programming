@@ -52,5 +52,20 @@ template<class S>auto&operator<<(ostream&os,vector<S>t){bool a=1; for(auto s:t){
 int main(){
 	cin.tie(0);
 	ios::sync_with_stdio(false);
-	
+	ll n,m,in;
+	string str;
+	cin>>n>>m;
+	vl c(m),s(m),dp(1ll<<n,LINF);
+	rep(i,m){
+		cin>>str>>c[i];
+		rep(j,n)if(str[j]=='Y')s[i]|=(1ll<<j);
+	}
+	dp[0]=0;
+	rep(i,m){
+		rrep(j,1ll<<n){
+			chmin(dp[((ll)j|s[i])],dp[j]+c[i]);
+		}
+	}
+	ll ans=(dp[(1<<n)-1]);
+	cout<<(ans!=LINF?ans:-1)<<endl;;
 }

@@ -52,5 +52,25 @@ template<class S>auto&operator<<(ostream&os,vector<S>t){bool a=1; for(auto s:t){
 int main(){
 	cin.tie(0);
 	ios::sync_with_stdio(false);
-	
+	ll n;
+	char c;
+	cin>>n;
+	vvl vv(4,vl(n,0));
+	rep(i,5)rep(j,n){
+		cin>>c;
+		int tab=3;
+		if(c=='R')tab=0;
+		if(c=='B')tab=1;
+		if(c=='W')tab=2;
+		vv[tab][j]++;
+	}
+	vvl dp(3,vl(n,LINF));
+	rep(i,3)dp[i][0]=5-vv[i][0];
+	range(i,1,n){
+		rep(j,3)rep(k,3){
+			if(j==k)continue;
+			chmin(dp[k][i],dp[j][i-1]+5-vv[k][i]);
+		}
+	}
+	cout<<min({dp[0][n-1],dp[1][n-1],dp[2][n-1]})<<endl;
 }

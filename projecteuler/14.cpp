@@ -52,5 +52,17 @@ template<class S>auto&operator<<(ostream&os,vector<S>t){bool a=1; for(auto s:t){
 int main(){
 	cin.tie(0);
 	ios::sync_with_stdio(false);
-	
+	ll mx=0,ans=0;
+	ll n=1000000;
+	range(i,2,n+1){
+		ll tar=i;
+		ll cnt=1;
+		while(tar!=1){
+			tar=(tar%2==0?tar/2:3*tar+1);
+			cnt++;
+		}
+		if(chmax(mx,cnt))ans=i;
+	}
+	cout<<ans<<endl;
 }
+

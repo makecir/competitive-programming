@@ -52,5 +52,9 @@ template<class S>auto&operator<<(ostream&os,vector<S>t){bool a=1; for(auto s:t){
 int main(){
 	cin.tie(0);
 	ios::sync_with_stdio(false);
-	
+	ll n=20;
+	vvl vv(n+1,vl(n+1));
+	rep(i,n+1)vv[0][i]=vv[i][0]1;
+	rep(i,n)rep(j,n)vv[i+1][j+1]=vv[i][j+1]+vv[i+1][j];
+	cout<<vv[n][n]<<endl;
 }

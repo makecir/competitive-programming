@@ -8,7 +8,7 @@ using vll = vector<vl>;
 #define MOD 1000000007
 
 vl fact,finv;
-ll mdpow(ll x,ll k){
+ll modpow(ll x,ll k){
 	ll res=1;
 	while(k!=0){
 		if(k&1)res=res*x%MOD;

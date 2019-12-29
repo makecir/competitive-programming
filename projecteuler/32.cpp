@@ -52,5 +52,25 @@ template<class S>auto&operator<<(ostream&os,vector<S>t){bool a=1; for(auto s:t){
 int main(){
 	cin.tie(0);
 	ios::sync_with_stdio(false);
-	
+	ll ans=0;
+	set<ll> s;
+	ll a,b,c;
+	vl v(9);
+	iota(all(v),1);
+	do{
+		for(int i=1;i<=7;i++){
+			for(int j=i+1;j<=8;j++){
+				a=0;b=0,c=0;
+				rep(k,9){
+					if(k<i)a=a*10+v[k];
+					else if(k<j)b=b*10+v[k];
+					else c=c*10+v[k];
+				}
+				if((a*b==c)&&a<b)s.insert(c);
+			}
+		}
+	}while(next_permutation(all(v)));
+	for(auto x:s)ans+=x;
+	puta(ans);
 }
+

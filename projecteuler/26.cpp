@@ -49,8 +49,32 @@ template<class H,class...T>void puta(H&&h,T&&...t){cout<<h<<' ';puta(t...);}
 template<class S,class T>ostream&operator<<(ostream&os,pair<S,T>p){os<<"["<<p.first<<", "<<p.second<<"]";return os;};
 template<class S>auto&operator<<(ostream&os,vector<S>t){bool a=1; for(auto s:t){os<<(a?"":" ")<<s;a=0;} return os;}
 
+bool strdiv(ll len,ll div){
+	ll cur=0,sum=0;
+	while(cur<len){
+		while(cur<len&&sum<div){
+			cur++;
+			sum=sum*10+9;
+		}
+		sum%=div;
+	}
+	return (cur==len&&sum==0);
+}
+
 int main(){
 	cin.tie(0);
 	ios::sync_with_stdio(false);
-	
+	ll n;
+	n=1000;
+	ll ans=0,mx=0;
+	range(i,1,n+1){
+		range(j,1,i){
+			if(strdiv(j,i)){
+				if(chmax(mx,(ll)j))ans=i;
+				j=i;
+			}
+		}
+	}
+	puta(ans);
 }
+

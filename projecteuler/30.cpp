@@ -52,5 +52,17 @@ template<class S>auto&operator<<(ostream&os,vector<S>t){bool a=1; for(auto s:t){
 int main(){
 	cin.tie(0);
 	ios::sync_with_stdio(false);
-	
+	ll ans=0;
+	vl mul(10);
+	rep(i,10)mul[i]=pow(i,5);
+	range(i,2,500000){
+		ll cur=i;
+		ll sum=0;
+		while(cur){
+			sum+=mul[cur%10];
+			cur/=10;
+		}
+		if(i==sum)ans+=i;
+	}
+	cout<<ans<<endl;
 }

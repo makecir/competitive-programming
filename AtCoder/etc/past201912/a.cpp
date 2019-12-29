@@ -52,5 +52,14 @@ template<class S>auto&operator<<(ostream&os,vector<S>t){bool a=1; for(auto s:t){
 int main(){
 	cin.tie(0);
 	ios::sync_with_stdio(false);
-	
+	string s;
+	cin>>s;
+	rep(i,3){
+		if(s[i]<'0'||s[i]>'9'){
+			cout<<"error"<<endl;
+			return 0;
+		}
+	}
+	cout<<2*stol(s)<<endl;
+
 }

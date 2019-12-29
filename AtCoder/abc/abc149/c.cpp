@@ -48,9 +48,23 @@ template<class T>void puta(T&&t){cout<<t<<"\n";}
 template<class H,class...T>void puta(H&&h,T&&...t){cout<<h<<' ';puta(t...);}
 template<class S,class T>ostream&operator<<(ostream&os,pair<S,T>p){os<<"["<<p.first<<", "<<p.second<<"]";return os;};
 template<class S>auto&operator<<(ostream&os,vector<S>t){bool a=1; for(auto s:t){os<<(a?"":" ")<<s;a=0;} return os;}
-
+constexpr ll gcd(ll a,ll b){return b?gcd(b,a%b):a;}
+constexpr ll lcm(ll a,ll b){return a/gcd(a,b)*b;}
+bool isPrime(ll n){
+	if(n==1)return false;
+	for(ll i=2;i*i<=n;i++)if(n%i==0)return false;
+	return true;
+}
 int main(){
 	cin.tie(0);
 	ios::sync_with_stdio(false);
-	
+	ll x;
+	cin>>x;
+	while(1){
+		if(isPrime(x)){
+			cout<<x<<endl;
+			return 0;
+		}
+		x++;
+	}
 }

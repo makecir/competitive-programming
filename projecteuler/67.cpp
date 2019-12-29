@@ -52,5 +52,14 @@ template<class S>auto&operator<<(ostream&os,vector<S>t){bool a=1; for(auto s:t){
 int main(){
 	cin.tie(0);
 	ios::sync_with_stdio(false);
-	
+	ll n=100;
+	vvl vv(n,vl(n));
+	rep(i,n)rep(j,i+1)cin>>vv[i][j];
+	rrep(i,n-1){
+		rep(j,i+1)vv[i][j]=max(vv[i+1][j],vv[i+1][j+1])+vv[i][j];
+	}
+	//rep(i,n)puta(vv[i]);
+	cout<<vv[0][0]<<endl;
+
 }
+

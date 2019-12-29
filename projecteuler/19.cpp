@@ -49,8 +49,23 @@ template<class H,class...T>void puta(H&&h,T&&...t){cout<<h<<' ';puta(t...);}
 template<class S,class T>ostream&operator<<(ostream&os,pair<S,T>p){os<<"["<<p.first<<", "<<p.second<<"]";return os;};
 template<class S>auto&operator<<(ostream&os,vector<S>t){bool a=1; for(auto s:t){os<<(a?"":" ")<<s;a=0;} return os;}
 
+bool leap(ll y){
+	return ((y%4==0)^(y%100==0)^(y%400==0));
+}
+
 int main(){
 	cin.tie(0);
 	ios::sync_with_stdio(false);
-	
+	ll ans=0;
+	ll cur=1;
+	vl m={31,28,31,30,31,30,31,31,30,31,30,31};
+	for(int i=1900;i<2001;i++){
+		for(int j=1;j<13;j++){
+			if(cur%7==0&&i!=1900)ans++;
+			cur+=m[j-1];
+			if(j==2&&leap(i))cur++;
+		}
+	}
+	puta(ans);
 }
+

@@ -1,3 +1,4 @@
+
 #include <bits/stdc++.h>
 using namespace std;
 using ll=long long;
@@ -52,5 +53,23 @@ template<class S>auto&operator<<(ostream&os,vector<S>t){bool a=1; for(auto s:t){
 int main(){
 	cin.tie(0);
 	ios::sync_with_stdio(false);
-	
+	set<vl> s;
+	range(a,2,101){
+		vl dp(210);
+		dp[0]=1;
+		rep(i,100){
+			rrep(j,dp.size()){
+				ll tar=j;
+				ll cnt=dp[j]*a;
+				dp[j]=cnt%10;
+				while(cnt>9){
+					tar++;
+					cnt=dp[tar]+cnt/10;
+					dp[tar]=cnt%10;
+				}
+			}
+			if(i!=0)s.insert(dp);
+		}
+	}
+	cout<<s.size()<<endl;
 }

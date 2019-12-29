@@ -52,5 +52,44 @@ template<class S>auto&operator<<(ostream&os,vector<S>t){bool a=1; for(auto s:t){
 int main(){
 	cin.tie(0);
 	ios::sync_with_stdio(false);
-	
+	ll n,q,op,od=0,all=0,x,a,ans=0,odmn=LINF,evmn=LINF;
+	cin>>n;
+	vl v(n),sell(n);
+	rep(i,n){
+		cin>>v[i];
+		if(i%2==0)chmin(odmn,v[i]);
+		else chmin(evmn,v[i]);
+	}
+	cin>>q;
+	while(q--){
+		cin>>op;
+		if(op==1){
+			cin>>x>>a;x--;
+			if(v[x]-sell[x]-all-(x%2==0?od:0ll)>=a){
+				ans+=a;
+				if(x%2==0)chmin(odmn,v[x]-sell[x]-od-all-a);
+				else chmin(evmn,v[x]-sell[x]-all-a);
+				sell[x]+=a;
+			}
+		}
+		else if(op==2){
+			cin>>a;
+			if(odmn>=a){
+				odmn-=a;
+				od+=a;
+				ans+=a*((n+1)/2);
+			}
+		}
+		else {
+			cin>>a;
+			if(min(evmn,odmn)>=a){
+				evmn-=a;
+				odmn-=a;
+				ans+=(a*n);
+				all+=a;
+			}
+		}
+		//puta(ans);
+	}
+	puta(ans);
 }

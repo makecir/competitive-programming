@@ -52,5 +52,32 @@ template<class S>auto&operator<<(ostream&os,vector<S>t){bool a=1; for(auto s:t){
 int main(){
 	cin.tie(0);
 	ios::sync_with_stdio(false);
-	
+	ll n,q,op,a,b;
+	cin>>n>>q;
+	vvb vv(n,vb(n,false));
+	while(q--){
+		cin>>op;
+		if(op==1){
+			cin>>a>>b;a--;b--;
+			vv[a][b]=true;
+		}
+		else if(op==2){
+			cin>>a;a--;
+			rep(i,n)if(vv[i][a])vv[a][i]=true;
+		}
+		else{
+			cin>>a;a--;
+			vb t(n,false);
+			rep(i,n)t[i]=vv[a][i];
+			rep(i,n)if(t[i]){
+				rep(j,n)if(vv[i][j]&&j!=a)vv[a][j]=true;
+			}
+		}
+	}
+	rep(i,n){
+		rep(j,n){
+			cout<<(vv[i][j]?'Y':'N');
+		}
+		cout<<endl;
+	}
 }

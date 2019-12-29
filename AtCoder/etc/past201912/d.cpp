@@ -52,5 +52,19 @@ template<class S>auto&operator<<(ostream&os,vector<S>t){bool a=1; for(auto s:t){
 int main(){
 	cin.tie(0);
 	ios::sync_with_stdio(false);
-	
+	ll n,z=-1,t=-1;
+	cin>>n;
+	vl v(n),cnt(n);
+	rep(i,n)cin>>v[i];
+	rep(i,n)cnt[v[i]-1]++;
+	rep(i,n){
+		if(cnt[i]==0)z=i+1;
+		if(cnt[i]==2)t=i+1;
+	}
+	if(z==-1){
+		cout<<"Correct"<<endl;
+	}
+	else{
+		cout<<t<<" "<<z<<endl;
+	}
 }

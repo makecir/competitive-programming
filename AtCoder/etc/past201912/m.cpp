@@ -52,5 +52,22 @@ template<class S>auto&operator<<(ostream&os,vector<S>t){bool a=1; for(auto s:t){
 int main(){
 	cin.tie(0);
 	ios::sync_with_stdio(false);
-	
+	ll n,m;
+	cin>>n>>m;
+	vl a(n),b(n),c(m),d(m);
+	rep(i,n)cin>>a[i]>>b[i];
+	rep(i,m)cin>>c[i]>>d[i];
+	double ng=INF,ok=0;
+	while(ok+EPS<ng){
+		double mid=(ok+ng)/2.0;
+		vd v(n),u(m);
+		rep(i,n)v[i]=b[i]-a[i]*mid;
+		sort(rall(v));
+		rep(i,m)u[i]=d[i]-c[i]*mid;
+		sort(rall(u));
+		double sum=v[0]+v[1]+v[2]+v[3]+max(v[4],u[0]);
+		if(sum>=0)ok=mid;
+		else ng=mid;
+	}
+	fcout(8)<<ok<<endl;
 }
