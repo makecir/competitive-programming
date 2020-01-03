@@ -52,18 +52,15 @@ template<class S>auto&operator<<(ostream&os,vector<S>t){bool a=1; for(auto s:t){
 int main(){
 	cin.tie(0);
 	ios::sync_with_stdio(false);
-	string s;
-	ll cnt=0;
-	while(s.size()<=1000000){
-		s+=to_string(cnt);
-		cnt++;
-	}
-	cnt=1;
-	ll ans=1;
-	while(cnt<=1000000){
-		ans*=(s[cnt]-'0');
-		cnt*=10;
-	}
+	string s="0123456789";
+	ll ans=0;
+	vl div={2,3,5,7,11,13,17};
+	do{
+		bool ok=true;
+		rep(i,7){
+			ok&=(stoll(s.substr(i+1,3)))%div[i]==0;
+		}
+		if(ok)ans+=stoll(s);
+	}while(next_permutation(all(s)));
 	puta(ans);
 }
-

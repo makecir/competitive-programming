@@ -48,22 +48,22 @@ template<class T>void puta(T&&t){cout<<t<<"\n";}
 template<class H,class...T>void puta(H&&h,T&&...t){cout<<h<<' ';puta(t...);}
 template<class S,class T>ostream&operator<<(ostream&os,pair<S,T>p){os<<"["<<p.first<<", "<<p.second<<"]";return os;};
 template<class S>auto&operator<<(ostream&os,vector<S>t){bool a=1; for(auto s:t){os<<(a?"":" ")<<s;a=0;} return os;}
-
+bool isPrime(ll n){
+	if(n==1)return false;
+	for(ll i=2;i*i<=n;i++)if(n%i==0)return false;
+	return true;
+}
 int main(){
 	cin.tie(0);
 	ios::sync_with_stdio(false);
 	string s;
-	ll cnt=0;
-	while(s.size()<=1000000){
-		s+=to_string(cnt);
-		cnt++;
-	}
-	cnt=1;
-	ll ans=1;
-	while(cnt<=1000000){
-		ans*=(s[cnt]-'0');
-		cnt*=10;
+	ll ans=0;
+	rep(i,9){
+		s.push_back('1'+i);
+		do{
+			ll query=stoll(s);
+			if(isPrime(query))chmax(ans,query);
+		}while(next_permutation(all(s)));
 	}
 	puta(ans);
 }
-

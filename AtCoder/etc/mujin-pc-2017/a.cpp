@@ -47,23 +47,28 @@ ll max(int a,ll b){return max((ll)a,b);} ll max(ll a,int b){return max(a,(ll)b);
 template<class T>void puta(T&&t){cout<<t<<"\n";}
 template<class H,class...T>void puta(H&&h,T&&...t){cout<<h<<' ';puta(t...);}
 template<class S,class T>ostream&operator<<(ostream&os,pair<S,T>p){os<<"["<<p.first<<", "<<p.second<<"]";return os;};
-template<class S>auto&operator<<(ostream&os,vector<S>t){bool a=1; for(auto s:t){os<<(a?"":" ")<<s;a=0;} return os;}
+template<class S>auto&operator<<(ostream&os,vector<S>t){bool a=1; for(auto s:t){os<<(a?"":" ")<<s;a=0;} return os;};
 
 int main(){
 	cin.tie(0);
 	ios::sync_with_stdio(false);
-	string s;
-	ll cnt=0;
-	while(s.size()<=1000000){
-		s+=to_string(cnt);
-		cnt++;
+	ll n;
+	cin>>n;
+	vl v(n);
+	rep(i,n)cin>>v[i];
+	ll ans=1,mx=0;
+	vl cnt(n,n);
+	rep(i,n){
+		ll rec=(i*2)+1;
+		ll tab=((rec-v[i])+1);
+		chmax(tab,0ll);
+		tab/=2;
+		chmax(mx,tab);
+		cnt[mx]=i+1;
 	}
-	cnt=1;
-	ll ans=1;
-	while(cnt<=1000000){
-		ans*=(s[cnt]-'0');
-		cnt*=10;
-	}
+	rrep(i,n-1)chmin(cnt[i],cnt[i+1]);
+	//puta(cnt);
+	rep(i,n)ans*=(min(n,cnt[i]+1)-i),ans%=MOD;
+	//rep(i,n)puta(min(n,cnt[i]+1)-i);
 	puta(ans);
 }
-

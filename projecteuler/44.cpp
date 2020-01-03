@@ -52,18 +52,19 @@ template<class S>auto&operator<<(ostream&os,vector<S>t){bool a=1; for(auto s:t){
 int main(){
 	cin.tie(0);
 	ios::sync_with_stdio(false);
-	string s;
-	ll cnt=0;
-	while(s.size()<=1000000){
-		s+=to_string(cnt);
+	ll ans=LINF;
+	set<ll> s;
+	ll cnt=0,tmp=0;
+	while(cnt<10000){
 		cnt++;
+		tmp=(cnt)*(3*cnt-1)/2;
+		s.insert(tmp);
 	}
-	cnt=1;
-	ll ans=1;
-	while(cnt<=1000000){
-		ans*=(s[cnt]-'0');
-		cnt*=10;
+	for(auto x:s){
+		for(auto y:s){
+			if(x<=y)continue;
+			if(s.find(x-y)!=s.end()&&s.find(x+y)!=s.end())chmin(ans,x-y);
+		}
 	}
 	puta(ans);
 }
-
