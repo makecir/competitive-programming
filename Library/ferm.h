@@ -32,7 +32,7 @@ struct ferm{
 		finv[0]=1;
 		rep(i,n-1){
 			fact[i+1]=(fact[i]*(i+1))%MOD;
-			finv[i+1]=mdpow(fact[i+1],MOD-2);
+			finv[i+1]=modpw(fact[i+1],MOD-2);
 		}
 	}
 };
