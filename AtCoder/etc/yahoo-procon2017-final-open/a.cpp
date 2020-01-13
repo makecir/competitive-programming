@@ -18,8 +18,8 @@ using vs=vector<string>;
 #define all(a) a.begin(),a.end()
 #define rall(a) a.rbegin(),a.rend()
 #define rep(i,n) range(i,0,n)
-#define rrep(i,n) for(int i=(n)-1;i>=0;i--)
-#define range(i,a,n) for(int i=(a);i<(n);i++)
+#define rrep(i,n) for(ll i=(n)-1;i>=0;i--)
+#define range(i,a,n) for(ll i=(a);i<(n);i++)
 
 #define LINF ((ll)1ll<<60)
 #define INF ((int)1<<30)
@@ -40,6 +40,8 @@ template<class S>S min(vector<S>&a){return *min_element(all(a));}
 void YN(bool b){cout<<(b?"YES":"NO")<<"\n";}
 void Yn(bool b){cout<<(b?"Yes":"No")<<"\n";}
 void yn(bool b){cout<<(b?"yes":"no")<<"\n";}
+int sgn(const double&r){return (r>EPS)-(r<-EPS);} // a>0  : sgn(a)>0
+int sgn(const double&a,const double&b){return sgn(a-b);} // b<=c : sgn(b,c)<=0
 
 ll max(int a,ll b){return max((ll)a,b);} ll max(ll a,int b){return max(a,(ll)b);}
 template<class T>void puta(T&&t){cout<<t<<"\n";}
@@ -50,10 +52,13 @@ template<class S>auto&operator<<(ostream&os,vector<S>t){bool a=1; for(auto s:t){
 int main(){
 	cin.tie(0);
 	ios::sync_with_stdio(false);
-	ll n;
-	cin>>n;
-	vl a(n),b(n);
-	rep(i,n)cin>>a[i]>>b[i];
-	
-	rep(i,n)cout<<a*b<<"/n";
+	string s;
+	string yahoo="yahoo";
+	cin>>s;
+	ll n=s.size();
+	vvl dp(n+1,vl(5,LINF));
+	dp[0][0]=0;
+	range(i,1,n+1)rep(j,10)chmin(dp[i][j%5],min({dp[i-1][j%5]+1,dp[i][(j+4)%5]+1,dp[i-1][(j+4)%5]+(s[i-1]!=yahoo[(j+4)%5])}));
+	cout<<dp[n][0]<<endl;
+	//rep(i,n+1)cout<<s[i-1]<<" "<<dp[i]<<endl;
 }

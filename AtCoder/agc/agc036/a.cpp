@@ -52,5 +52,12 @@ template<class S>auto&operator<<(ostream&os,vector<S>t){bool a=1; for(auto s:t){
 int main(){
 	cin.tie(0);
 	ios::sync_with_stdio(false);
-	fcout(10)<<(1e9-1)*(1e9-1)<<endl;
+	ll s;
+	cin>>s;
+	ll x,y;
+	y=s/1000000000;
+	if(s%1000000000!=0)y++;
+	x=y*1000000000-s;
+	fcout(0);
+	puta(0,0,1000000000,1,x,y);
 }

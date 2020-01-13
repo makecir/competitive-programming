@@ -18,8 +18,8 @@ using vs=vector<string>;
 #define all(a) a.begin(),a.end()
 #define rall(a) a.rbegin(),a.rend()
 #define rep(i,n) range(i,0,n)
-#define rrep(i,n) for(int i=(n)-1;i>=0;i--)
-#define range(i,a,n) for(int i=(a);i<(n);i++)
+#define rrep(i,n) for(ll i=(n)-1;i>=0;i--)
+#define range(i,a,n) for(ll i=(a);i<(n);i++)
 
 #define LINF ((ll)1ll<<60)
 #define INF ((int)1<<30)
@@ -40,6 +40,8 @@ template<class S>S min(vector<S>&a){return *min_element(all(a));}
 void YN(bool b){cout<<(b?"YES":"NO")<<"\n";}
 void Yn(bool b){cout<<(b?"Yes":"No")<<"\n";}
 void yn(bool b){cout<<(b?"yes":"no")<<"\n";}
+int sgn(const double&r){return (r>EPS)-(r<-EPS);} // a>0  : sgn(a)>0
+int sgn(const double&a,const double&b){return sgn(a-b);} // b<=c : sgn(b,c)<=0
 
 ll max(int a,ll b){return max((ll)a,b);} ll max(ll a,int b){return max(a,(ll)b);}
 template<class T>void puta(T&&t){cout<<t<<"\n";}
@@ -52,8 +54,37 @@ int main(){
 	ios::sync_with_stdio(false);
 	ll n;
 	cin>>n;
-	vl a(n),b(n);
-	rep(i,n)cin>>a[i]>>b[i];
-	
-	rep(i,n)cout<<a*b<<"/n";
+	vvb xy(n,vb(n,false)),xz(n,vb(n,false)),yz(n,vb(n,true));
+	char c;
+	rep(i,n)rep(j,n){
+		cin>>c;
+		xy[i][j]=(c=='1');
+	}
+	rep(i,n)rep(j,n){
+		cin>>c;
+		xz[i][j]=(c=='1');
+	}
+	rep(i,n)rep(j,n){
+		if(!xy[i][j])continue;
+		rep(k,n){
+			if(xz[i][k])continue;
+			yz[j][k]=false;
+		}
+	}
+	bool ok=true;
+	rep(i,n){
+		vb rea(n,false);
+		rep(j,n){
+			if(!xy[i][j])continue;
+			rep(k,n)rea[k]=rea[k]|(yz[j][k]);
+		}
+		rep(j,n)ok&=(rea[j]==xz[i][j]);
+	}
+	if(!ok)cout<<-1<<endl;
+	else{
+		rep(i,n){
+			rep(j,n)cout<<yz[i][j];
+			cout<<endl;
+		}
+	}
 }
