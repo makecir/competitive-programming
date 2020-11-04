@@ -1,5 +1,7 @@
 #include <bits/stdc++.h>
+#include <atcoder/all>
 using namespace std;
+using namespace atcoder;
 using ll=long long;
 using vb=vector<bool>;
 using vvb=vector<vb>;
@@ -49,10 +51,42 @@ template<class H,class...T>void puta(H&&h,T&&...t){cout<<h<<' ';puta(t...);}
 template<class S,class T>ostream&operator<<(ostream&os,pair<S,T>p){os<<"["<<p.first<<", "<<p.second<<"]";return os;};
 template<class S>auto&operator<<(ostream&os,vector<S>t){bool a=1; for(auto s:t){os<<(a?"":" ")<<s;a=0;} return os;}
 
+struct S{
+	ll l,r,pos;
+};
+
 int main(){
 	cin.tie(0);
 	ios::sync_with_stdio(false);
-	ll x;
-	cin>>x;
-	Yn(x>=30);
+	ll n,q;
+	cin>>n>>q;
+	vl c(n),ans(q);
+	vector<S> v(q);
+	rep(i,n)cin>>c[i],c[i]--;
+	rep(i,q){
+		ll l,r;
+		cin>>l>>r;
+		v[i].l=--l;
+		v[i].r=--r;
+		v[i].pos=i;
+	}
+	sort(all(v),[](auto a,auto b){
+		if(a.r==b.r)a.l<b.l;
+		return a.r<b.r;
+	});
+	fenwick_tree<ll> fw(n);
+	ll idx=0;
+	vl pv(n,-1);
+	rep(i,q){
+		while(idx<=v[i].r){
+			if(pv[c[idx]]!=-1){
+				fw.add(pv[c[idx]],-1);
+			}
+			pv[c[idx]]=idx;
+			fw.add(idx,1);
+			idx++;
+		}
+		ans[v[i].pos]=fw.sum(v[i].l,v[i].r+1);
+	}
+	rep(i,q)puta(ans[i]);
 }

@@ -52,7 +52,16 @@ template<class S>auto&operator<<(ostream&os,vector<S>t){bool a=1; for(auto s:t){
 int main(){
 	cin.tie(0);
 	ios::sync_with_stdio(false);
-	ll x;
-	cin>>x;
-	Yn(x>=30);
+	ll k;
+	cin>>k;
+	ll tab=0;
+	rep(i,k+1){
+		tab=tab*10+7;
+		tab%=k;
+		if(tab==0){
+			puta(i+1);
+			return 0;
+		}
+	}
+	puta(-1);
 }

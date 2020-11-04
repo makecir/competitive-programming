@@ -11,6 +11,7 @@ using vl=vector<ll>;
 using vvl=vector<vl>;
 using pii=pair<int,int>;
 using pll=pair<ll,ll>;
+using pdl=pair<double,ll>;
 using tll=tuple<ll,ll>;
 using tlll=tuple<ll,ll,ll>;
 using vs=vector<string>;
@@ -52,7 +53,19 @@ template<class S>auto&operator<<(ostream&os,vector<S>t){bool a=1; for(auto s:t){
 int main(){
 	cin.tie(0);
 	ios::sync_with_stdio(false);
-	ll x;
-	cin>>x;
-	Yn(x>=30);
+	ll n,k,cnt=0;
+	cin>>n>>k;
+	vl v(n);
+	rep(i,n)cin>>v[i];
+	ll ok=max(v),ng=0;
+	while(ok>ng+1){
+		ll mid=(ok+ng)/2;
+		ll cnt=0;
+		rep(i,n){
+			cnt+=ceil((double)v[i]/mid)-1;
+		}
+		if(cnt<=k)ok=mid;
+		else ng=mid;
+	}
+	puta(ok);
 }
