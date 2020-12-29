@@ -1,13 +1,13 @@
 constexpr ll gcd(ll a,ll b){return b?gcd(b,a%b):a;}
 constexpr ll lcm(ll a,ll b){return a/gcd(a,b)*b;}
 
-ll exgcd(ll a,ll b,ll &x,ll &y) {
+ll extgcd(ll a,ll b,ll &x,ll &y) {
 	if(b==0){
 		x=1;
 		y=0;
 		return a;
 	}
-	ll d=exgcd(b,a%b,y,x);
+	ll d=extgcd(b,a%b,y,x);
 	y-=a/b*x;
 	return d;
 }
@@ -31,6 +31,25 @@ map<ll,int> primeFactorMp(ll n){
 	map<ll,int> ret;
 	for(ll i=2;i*i<=n;i++)if(n%i==0){n/=i;ret[i--]++;}
 	if(n-1)ret[n]++;
+	return ret;
+}
+
+vl enumdiv(ll n) {
+	set<ll> s;
+	for(ll i=1;i*i<=n;i++)if(n%i==0)s.insert(i),s.insert(n/i); 
+	s.insert(n);
+	return vl(s.begin(),s.end());
+}
+
+ll euler_phi(ll n){
+	ll ret=n;
+	for(ll i=2;i*i<=n;i++){
+		if(n%i==0){
+			ret=ret/i*(i-1);
+			while(n%i==0)n/=i;
+		}
+	}
+	if(n!=1)ret=ret/n*(n-1);
 	return ret;
 }
 
