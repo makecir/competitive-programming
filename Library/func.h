@@ -61,6 +61,15 @@ int ffs(int x){return __builtin_ffs(x);}
 int ffs(ll x){return __builtin_ffsll(x);}
 
 
+ll op(ll a, ll b) {
+	return min(a, b);
+}
+
+ll e() {
+	return LINF;
+}
+
+
 template<class H,class...T>void puta(H&&h,T&&...t){cout<<h<<' ';puta(t...);}
 template<class S,class T>ostream&operator<<(ostream&os,pair<S,T>p){os<<"["<<p.first<<", "<<p.second<<"]";return os;};
 template<class S>auto&operator<<(ostream&os,vector<S>t){bool a=1; for(auto s:t){os<<(a?"":" ")<<s;a=0;} return os;}

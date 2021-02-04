@@ -1,5 +1,7 @@
 #include <bits/stdc++.h>
+#include <atcoder/all>
 using namespace std;
+using namespace atcoder;
 using ll=long long;
 using vb=vector<bool>;
 using vvb=vector<vb>;
@@ -18,13 +20,14 @@ using vs=vector<string>;
 #define all(a) a.begin(),a.end()
 #define rall(a) a.rbegin(),a.rend()
 #define rep(i,n) range(i,0,n)
-#define rrep(i,n) for(int i=(n)-1;i>=0;i--)
-#define range(i,a,n) for(int i=(a);i<(n);i++)
+#define rrep(i,n) for(ll i=(n)-1;i>=0;i--)
+#define range(i,a,n) for(ll i=(a);i<(n);i++)
 
 #define LINF ((ll)1ll<<60)
 #define INF ((int)1<<30)
 #define EPS (1e-9)
 #define MOD (1000000007ll)
+//#define MOD (998244353ll)
 #define fcout(a) cout<<setprecision(a)<<fixed
 #define fs first
 #define sc second
@@ -40,36 +43,55 @@ template<class S>S min(vector<S>&a){return *min_element(all(a));}
 void YN(bool b){cout<<(b?"YES":"NO")<<"\n";}
 void Yn(bool b){cout<<(b?"Yes":"No")<<"\n";}
 void yn(bool b){cout<<(b?"yes":"no")<<"\n";}
+int sgn(const double&r){return (r>EPS)-(r<-EPS);} // a>0  : sgn(a)>0
+int sgn(const double&a,const double&b){return sgn(a-b);} // b<=c : sgn(b,c)<=0
 
 ll max(int a,ll b){return max((ll)a,b);} ll max(ll a,int b){return max(a,(ll)b);}
 template<class T>void puta(T&&t){cout<<t<<"\n";}
 template<class H,class...T>void puta(H&&h,T&&...t){cout<<h<<' ';puta(t...);}
-template<class S,class T>ostream&operator<<(ostream&os,pair<S,T>p){os<<"["<<p.first<<", "<<p.second<<"]";return os;};
+template<class S,class T>ostream&operator<<(ostream&os,pair<S,T>p){os<<"["<<p.first<<", "<<p.second<<"]";return os;}
 template<class S>auto&operator<<(ostream&os,vector<S>t){bool a=1; for(auto s:t){os<<(a?"":" ")<<s;a=0;} return os;}
-
 
 int main(){
 	cin.tie(0);
 	ios::sync_with_stdio(false);
-	ll n,m,l;
+	ll n,m,l,q,a,b,c,s,t,p,nxt,cost,tar;
 	cin>>n>>m>>l;
-	vl a(m),b(m),c(m);
-	vvb edge(n,vb(n,false));
+	vector<vector<pll>> g(n);
+	vvl dist(n,vl(n,LINF));
 	rep(i,m){
-		cin>>a[i]>>b[i]>>c[i];
-		a[i]--;b[i]--;
-		edge[a[i]][b[i]]=edge[b[i]][a[i]]=true
+		cin>>a>>b>>c;
+		a--;b--;
+		if(c>l)continue;
+		g[a].push_back(pll(b,c));
+		g[b].push_back(pll(a,c));
 	}
-	vector<vector<pll>> ans(n,vector<pll>(n,pll(LINF,0)));
 	rep(i,n){
-		rep(j,m){
-			if()
+		priority_queue<pll,vector<pll>,greater<pll>> q;
+		q.emplace(0,i);
+		vb vis(n,false);
+		while(!q.empty()){
+			tie(c,p)=q.top(); q.pop();
+			if(vis[p])continue;
+			dist[i][p]=c;
+			vis[p]=true;
+			for(auto x:g[p]){
+				tie(nxt,cost)=x;
+				if((dist[i][p]-1)/l==(dist[i][p]+cost-1)/l)tar=dist[i][p]+cost;
+				else tar=((dist[i][p]-1)/l+1)*l+cost;
+				if(dist[i][nxt]<=tar)continue;
+				chmin(dist[i][nxt],tar);
+				q.emplace(tar,nxt);
+			}
 		}
 	}
-	ll q,s,t;
 	cin>>q;
 	while(q--){
 		cin>>s>>t;
-		cout<<(ans[s-1][t-1].fs!=LINF?ans[s-1][t-1].fs:-1)<<"\n";
+		s--;t--;
+		ll ans;
+		if(dist[s][t]==LINF)ans=-1;
+		else ans=(dist[s][t]-1)/l;
+		puta(ans);
 	}
 }
