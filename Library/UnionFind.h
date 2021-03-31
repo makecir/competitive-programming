@@ -6,11 +6,12 @@ struct UnionFind{
 	bool same(ll x,ll y){return find(x)==find(y);}
 	ll size(ll x){return -par[find(x)];}
 	ll diff(ll x,ll y){return same(x,y)?depth(x)-depth(y):LINF;}
-	void unite(ll x,ll y,ll k=0){
+	bool unite(ll x,ll y,ll k=0){
 		k+=depth(y); k-=depth(x); k=-k;
 		x=find(x); y=find(y);
-		if(x==y)return;
+		if(x==y)return false;
 		if(size(x)<size(y)){swap(x,y);k=-k;}
 		par[x]+=par[y]; par[y]=x; dist[y]=k;
+		return true;
 	}
 };

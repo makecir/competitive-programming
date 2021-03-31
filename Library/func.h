@@ -12,6 +12,12 @@ ll extgcd(ll a,ll b,ll &x,ll &y) {
 	return d;
 }
 
+tuple<bool, ll, ll> ExtGCD(ll a, ll b, ll c)
+{
+    auto[v,l]=atcoder::crt({0,c%abs(b)},{abs(a),abs(b)});
+    return {l!=0, v/a, (c-v)/b};
+}
+
 bool isPrime(ll n){
 	if(n==1)return false;
 	for(ll i=2;i*i<=n;i++)if(n%i==0)return false;

@@ -1,5 +1,7 @@
 #include <bits/stdc++.h>
+#include <atcoder/all>
 using namespace std;
+using namespace atcoder;
 using ll=long long;
 using vb=vector<bool>;
 using vvb=vector<vb>;
@@ -18,13 +20,14 @@ using vs=vector<string>;
 #define all(a) a.begin(),a.end()
 #define rall(a) a.rbegin(),a.rend()
 #define rep(i,n) range(i,0,n)
-#define rrep(i,n) for(int i=(n)-1;i>=0;i--)
-#define range(i,a,n) for(int i=(a);i<(n);i++)
+#define rrep(i,n) for(ll i=(n)-1;i>=0;i--)
+#define range(i,a,n) for(ll i=(a);i<(n);i++)
 
 #define LINF ((ll)1ll<<60)
 #define INF ((int)1<<30)
 #define EPS (1e-9)
 #define MOD (1000000007ll)
+//#define MOD (998244353ll)
 #define fcout(a) cout<<setprecision(a)<<fixed
 #define fs first
 #define sc second
@@ -46,34 +49,58 @@ int sgn(const double&a,const double&b){return sgn(a-b);} // b<=c : sgn(b,c)<=0
 ll max(int a,ll b){return max((ll)a,b);} ll max(ll a,int b){return max(a,(ll)b);}
 template<class T>void puta(T&&t){cout<<t<<"\n";}
 template<class H,class...T>void puta(H&&h,T&&...t){cout<<h<<' ';puta(t...);}
-template<class S,class T>ostream&operator<<(ostream&os,pair<S,T>p){os<<"["<<p.first<<", "<<p.second<<"]";return os;};
+template<class S,class T>ostream&operator<<(ostream&os,pair<S,T>p){os<<"["<<p.first<<", "<<p.second<<"]";return os;}
 template<class S>auto&operator<<(ostream&os,vector<S>t){bool a=1; for(auto s:t){os<<(a?"":" ")<<s;a=0;} return os;}
+template<class T=ll>struct Graph{
+	int n;
+	vector<vector<tuple<ll,T>>>edge;
+	Graph(int N=1):n(N){edge.resize(n);}
+	void add(ll f,ll t,T c,bool d=false){
+		edge[f].emplace_back(t,c);
+		if(!d)edge[t].emplace_back(f,c);
+	}
+	void view(){
+		rep(i,n)for(auto&e:edge[i])
+			puta(i,"=>",get<0>(e),", cost :",get<1>(e));
+	}
+};
+
+template<class T=ll>struct Dijkstra:Graph<T>{
+	using Graph<T>::Graph;
+	Dijkstra(int N=1):Graph<T>::Graph(N){}
+	const T mval=numeric_limits<T>::max()/2;
+	vector<T>dist(ll s){
+		vector<T> ret(this->n,mval);
+		priority_queue<tuple<T,ll>> q;
+		q.emplace(T(),s);
+		while(!q.empty()){
+			T c; ll p; tie(c,p)=q.top(); q.pop();
+			if(ret[p]!=mval)continue;
+			ret[p]=c=-c;
+			for(auto&e:this->edge[p]){
+				ll nxt;T cost;
+				tie(nxt,cost)=e;
+				if(ret[nxt]<=ret[p]+cost)continue;
+				q.emplace(-ret[p]-cost,nxt);
+			}
+		}
+		return ret;
+	}
+	T dist(ll s,ll t){return dist(s)[t];}
+};
 
 int main(){
 	cin.tie(0);
 	ios::sync_with_stdio(false);
 	ll n,m,l,r,c;
 	cin>>n>>m;
-	vl d(n+1,LINF);
-	vector<vector<pll>> p(n+1);
-	d[0]=0;
+	Dijkstra<ll> g(n);
+	rep(i,n-1)g.add(i+1,i,0,true);
 	rep(i,m){
 		cin>>l>>r>>c;
-		p[r].push_back(pll(l,c));
+		g.add(--l,--r,c,true);
 	}
-	p[1].push_back(pll(0,0));
-	ll cur=0;
-	range(i,1,n+1){
-		ll mn=LINF;
-		for(auto x:p[i]){
-			chmin(mn,x.sc+d[x.fs]);
-			//puta(x.sc,d[x.fs]);
-		}
-		//puta(mn);
-		if(mn!=LINF){
-			range(j,cur+1,i+1)chmin(d[j],mn);
-			cur=i;
-		}
-	}
-	cout<<(d[n]!=LINF?d[n]:-1)<<endl;
+	ll ans=g.dist(0,n-1);
+	if(ans==numeric_limits<ll>::max()/2)ans=-1;
+	puta(ans);
 }

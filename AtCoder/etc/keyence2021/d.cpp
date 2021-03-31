@@ -22,6 +22,7 @@ using vs=vector<string>;
 #define rep(i,n) range(i,0,n)
 #define rrep(i,n) for(ll i=(n)-1;i>=0;i--)
 #define range(i,a,n) for(ll i=(a);i<(n);i++)
+#define sz(x) (int)(x).size()
 
 #define LINF ((ll)1ll<<60)
 #define INF ((int)1<<30)
@@ -45,6 +46,8 @@ void Yn(bool b){cout<<(b?"Yes":"No")<<"\n";}
 void yn(bool b){cout<<(b?"yes":"no")<<"\n";}
 int sgn(const double&r){return (r>EPS)-(r<-EPS);} // a>0  : sgn(a)>0
 int sgn(const double&a,const double&b){return sgn(a-b);} // b<=c : sgn(b,c)<=0
+int popcnt(int x){return __builtin_popcount(x);}
+int popcnt(ll x){return __builtin_popcountll(x);}
 
 ll max(int a,ll b){return max((ll)a,b);} ll max(ll a,int b){return max(a,(ll)b);}
 template<class T>void puta(T&&t){cout<<t<<"\n";}
@@ -55,38 +58,19 @@ template<class S>auto&operator<<(ostream&os,vector<S>t){bool a=1; for(auto s:t){
 int main(){
 	cin.tie(0);
 	ios::sync_with_stdio(false);
-	ll n,tar,k;
+	ll n;
 	cin>>n;
-	puta((1<<n)-1);
-	vb b(1<<n,false);
-	rep(i,1<<(n-1)){
-		b[i+(1<<(n-1))]=true;
+	vvb vv((1ll<<n)-1,vb(1ll<<n));
+	rep(i,(1ll<<n)-1){
+		rep(j,1ll<<n){
+			vv[i][j]=popcnt((i+1)&j)%2==0;
+		}
 	}
-	rep(i,(1<<n)-1){
-		rep(i,(1<<n))cout<<(b[i]?'B':'A');
+	puta((1ll<<n)-1);
+	rep(i,(1ll<<n)-1){
+		rep(j,1ll<<n){
+			cout<<(vv[i][j]?'A':'B');
+		}
 		cout<<endl;
-		vb x(1<<n,false),y(1<<n,false);
-		rrep(j,(1<<n)){
-			if(b[j]){
-				tar=(1<<n)-j;
-				for(k=j;b[k];k--){
-					x[k]=true;
-				}
-				break;
-			}
-		}
-				//puta("b",b);
-						//puta("x",x);
-		b[k]=true;
-		range(j,k+1,(1<<n))b[j]=false;
-								//puta("b",b);
-		for(int j=(1<<n)-1;j-tar>=0;j--){
-			x[j]=x[j-tar];
-		}
-		//puta("x",x);
-		rep(j,(1<<n))b[j]=b[j]|x[j];
-		//puta("b",b);
-		//return 0;
-		
 	}
 }

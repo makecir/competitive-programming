@@ -53,44 +53,30 @@ template<class S>auto&operator<<(ostream&os,vector<S>t){bool a=1; for(auto s:t){
 int main(){
 	cin.tie(0);
 	ios::sync_with_stdio(false);
-	ll w,h;
+	ll w,h,MX=80*160+1,tar;
 	cin>>h>>w;
 	vvl a(h,vl(w)),b(h,vl(w)),c(h,vl(w));
 	rep(i,h)rep(j,w)cin>>a[i][j];
 	rep(i,h)rep(j,w)cin>>b[i][j];
 	rep(i,h)rep(j,w)c[i][j]=abs(a[i][j]-b[i][j]);
-	vector<vector<set<ll>>> vv(h,vector<set<ll>>(w));
-	vv[0][0].insert(c[0][0]);
+	vector<vvb> dp(h,vvb(w,vb(MX,false)));
+	dp[0][0][c[0][0]]=true;
 	rep(i,h)rep(j,w){
-		ll mn=+LINF;
 		if(i==0&&j==0)continue;
-		if(i!=0){
-			for(auto x:vv[i-1][j]){
-				vv[i][j].insert(x+c[i][j]);
-				vv[i][j].insert(x-c[i][j]);
-				chmin(mn,abs(x+c[i][j]));
-				chmin(mn,abs(x-c[i][j]));
+		rep(k,MX){
+			tar=abs(k-c[i][j]);
+			if(tar>=0&&tar<MX){
+				if(i!=0&&dp[i-1][j][tar])dp[i][j][k]=true;
+				if(j!=0&&dp[i][j-1][tar])dp[i][j][k]=true;
 			}
-		}
-		if(j!=0){
-			for(auto x:vv[i][j-1]){
-				vv[i][j].insert(x+c[i][j]);
-				vv[i][j].insert(x-c[i][j]);
-				chmin(mn,abs(x+c[i][j]));
-				chmin(mn,abs(x-c[i][j]));
+			tar=abs(k+c[i][j]);
+			if(tar>=0&&tar<MX){
+				if(i!=0&&dp[i-1][j][tar])dp[i][j][k]=true;
+				if(j!=0&&dp[i][j-1][tar])dp[i][j][k]=true;
 			}
-		}
-		set<ll> del;
-		for(auto x:vv[i][j]){
-			if((mn+(80*(h+w-2-i-j))<x)||(-mn-(80*(h+w-2-i-j))>x))del.insert(x);
-		}
-		for(auto x:del){
-			vv[i][j].erase(x);
 		}
 	}
 	ll ans=LINF;
-	for(auto x:vv[h-1][w-1])chmin(ans,abs(x));
+	rep(k,MX)if(dp[h-1][w-1][k])chmin(ans,ll(k));
 	puta(ans);
-
-
 }

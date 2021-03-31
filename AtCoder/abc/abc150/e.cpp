@@ -1,5 +1,7 @@
 #include <bits/stdc++.h>
+#include <atcoder/all>
 using namespace std;
+using namespace atcoder;
 using ll=long long;
 using vb=vector<bool>;
 using vvb=vector<vb>;
@@ -18,13 +20,14 @@ using vs=vector<string>;
 #define all(a) a.begin(),a.end()
 #define rall(a) a.rbegin(),a.rend()
 #define rep(i,n) range(i,0,n)
-#define rrep(i,n) for(int i=(n)-1;i>=0;i--)
-#define range(i,a,n) for(int i=(a);i<(n);i++)
+#define rrep(i,n) for(ll i=(n)-1;i>=0;i--)
+#define range(i,a,n) for(ll i=(a);i<(n);i++)
 
 #define LINF ((ll)1ll<<60)
 #define INF ((int)1<<30)
 #define EPS (1e-9)
 #define MOD (1000000007ll)
+//#define MOD (998244353ll)
 #define fcout(a) cout<<setprecision(a)<<fixed
 #define fs first
 #define sc second
@@ -46,7 +49,7 @@ int sgn(const double&a,const double&b){return sgn(a-b);} // b<=c : sgn(b,c)<=0
 ll max(int a,ll b){return max((ll)a,b);} ll max(ll a,int b){return max(a,(ll)b);}
 template<class T>void puta(T&&t){cout<<t<<"\n";}
 template<class H,class...T>void puta(H&&h,T&&...t){cout<<h<<' ';puta(t...);}
-template<class S,class T>ostream&operator<<(ostream&os,pair<S,T>p){os<<"["<<p.first<<", "<<p.second<<"]";return os;};
+template<class S,class T>ostream&operator<<(ostream&os,pair<S,T>p){os<<"["<<p.first<<", "<<p.second<<"]";return os;}
 template<class S>auto&operator<<(ostream&os,vector<S>t){bool a=1; for(auto s:t){os<<(a?"":" ")<<s;a=0;} return os;}
 
 int main(){
@@ -54,28 +57,21 @@ int main(){
 	ios::sync_with_stdio(false);
 	ll n,ans=0;
 	cin>>n;
-	vl v(n),tw(2*n),sum(2*n+1);
+	vl v(n),tw(n*2+1,1);
 	rep(i,n)cin>>v[i];
-	ll mul=1;
+	sort(all(v));
 	rep(i,n*2){
-		tw[i]=mul;
-		sum[i+1]=sum[i]+tw[i];
-		sum[i+1]%=MOD;
-		mul*=2;
-		mul%=MOD;
+		tw[i+1]=tw[i]*2%MOD;
 	}
-	sort(rall(v));
-	puta(tw);
 	rep(i,n){
-		//puta(tw[2*(n-i-1)],2,tw[2*i]-2);
-		ll tmp=v[i]*2;
-		puta(v[i]);
-		puta(tw[2*(n-1)],tw[2*(n-i-1)],(((i==0?2:tw[2*i])-2)+MOD)%MOD);
-		ll mul=tw[2*(n-1)]+tw[2*(n-i-1)]*(((i==0?2:tw[2*i])-2)+MOD);
-		tmp*=mul;
-		ans+=tmp;
+		ll k=n-i-1;
+		ll tmp=tw[k*2];
+		if(k!=0){
+			tmp+=k*tw[2*k-1];
+			tmp%=MOD;
+		}
+		ans+=(tw[i*2+1]*tmp%MOD)*v[i];
 		ans%=MOD;
-		puta(tmp%MOD,mul%MOD);
 	}
 	puta(ans);
 }

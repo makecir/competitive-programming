@@ -57,5 +57,22 @@ int main(){
 	vl v(n);
 	rep(i,n)cin>>v[i];
 	sort(all(v));
-	puta(v);
+	ll ng=-1,ok=INF,ans=0;
+	while(ng+1<ok){
+		ll mid=(ok+ng)/2;
+		ll cnt=0;
+		rep(i,n) cnt+=n-(lower_bound(all(v),mid-v[i])-v.begin());
+		if(cnt<m)ok=mid;
+		else ng=mid;
+	}
+	vl sum(n);
+	sum[0]=v[n-1];
+	range(i,1,n)sum[i]=sum[i-1]+v[n-1-i];
+	rrep(i,n){
+		ll tar=n-(lower_bound(all(v),ok-v[i])-v.begin());
+		m-=tar;
+		if(tar!=0)ans+=v[i]*tar+sum[tar-1];
+	}
+	ans+=m*ng;
+	puta(ans);
 }

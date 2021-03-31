@@ -1,5 +1,7 @@
 #include <bits/stdc++.h>
+#include <atcoder/all>
 using namespace std;
+using namespace atcoder;
 using ll=long long;
 using vb=vector<bool>;
 using vvb=vector<vb>;
@@ -18,13 +20,14 @@ using vs=vector<string>;
 #define all(a) a.begin(),a.end()
 #define rall(a) a.rbegin(),a.rend()
 #define rep(i,n) range(i,0,n)
-#define rrep(i,n) for(int i=(n)-1;i>=0;i--)
-#define range(i,a,n) for(int i=(a);i<(n);i++)
+#define rrep(i,n) for(ll i=(n)-1;i>=0;i--)
+#define range(i,a,n) for(ll i=(a);i<(n);i++)
 
 #define LINF ((ll)1ll<<60)
 #define INF ((int)1<<30)
 #define EPS (1e-9)
 #define MOD (1000000007ll)
+//#define MOD (998244353ll)
 #define fcout(a) cout<<setprecision(a)<<fixed
 #define fs first
 #define sc second
@@ -40,32 +43,59 @@ template<class S>S min(vector<S>&a){return *min_element(all(a));}
 void YN(bool b){cout<<(b?"YES":"NO")<<"\n";}
 void Yn(bool b){cout<<(b?"Yes":"No")<<"\n";}
 void yn(bool b){cout<<(b?"yes":"no")<<"\n";}
+int sgn(const double&r){return (r>EPS)-(r<-EPS);} // a>0  : sgn(a)>0
+int sgn(const double&a,const double&b){return sgn(a-b);} // b<=c : sgn(b,c)<=0
 
 ll max(int a,ll b){return max((ll)a,b);} ll max(ll a,int b){return max(a,(ll)b);}
 template<class T>void puta(T&&t){cout<<t<<"\n";}
 template<class H,class...T>void puta(H&&h,T&&...t){cout<<h<<' ';puta(t...);}
-template<class S,class T>ostream&operator<<(ostream&os,pair<S,T>p){os<<"["<<p.first<<", "<<p.second<<"]";return os;};
+template<class S,class T>ostream&operator<<(ostream&os,pair<S,T>p){os<<"["<<p.first<<", "<<p.second<<"]";return os;}
 template<class S>auto&operator<<(ostream&os,vector<S>t){bool a=1; for(auto s:t){os<<(a?"":" ")<<s;a=0;} return os;}
 
+vl fact,finv;
+ll modpw(ll x,ll k){
+	ll res=1;
+	while(k!=0){
+		if(k&1)res=res*x%MOD;
+		x=x*x%MOD;
+		k=k>>1;
+	}
+	return res;
+}
+
+ll comb(ll n,ll k) {
+	if(n==0&&k==0)return 1;
+	if(n<k||n<0)return 0;
+	return fact[n]*finv[n-k]%MOD*finv[k]%MOD;
+}
+
+struct ferm{
+	ferm(ll n){
+		fact.resize(n);
+		finv.resize(n);
+		fact[0]=1;
+		finv[0]=1;
+		rep(i,n-1){
+			fact[i+1]=(fact[i]*(i+1))%MOD;
+			finv[i+1]=modpw(fact[i+1],MOD-2);
+		}
+	}
+};
 int main(){
 	cin.tie(0);
 	ios::sync_with_stdio(false);
-	ll n,m,k,ans=1,sum=0;
+	ll n,m,k,ans=0;
 	cin>>n>>m>>k;
-	vvl vv(n+1,(vl(m+1)));
-	rep(i,n){
-		rep(j,m){
-			ll t=(i+1)*(j+1);
-			vv[i+1][j+1]=vv[i][j+1]+vv[i+1][j]+(t)*(t-1)/2;
-		}
+	ferm(200010);
+	range(i,1,n){
+		ans+=(m*m*(n-i)%MOD)*i;
+		ans%=MOD;
 	}
-	rep(i,n+1){
-		rep(j,m+1){
-			cout<<vv[i][j]<<"   ";
-		}
-		cout<<endl;
+	range(i,1,m){
+		ans+=(n*n*(m-i)%MOD)*i;
+		ans%=MOD;
 	}
-	cout<<vv[n][m]<<endl;
-	cout<<ans<<endl;
-
+	ans*=comb(n*m-2,k-2);
+	ans%=MOD;
+	puta(ans);
 }

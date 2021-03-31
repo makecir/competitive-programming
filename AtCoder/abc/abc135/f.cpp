@@ -1,5 +1,7 @@
 #include <bits/stdc++.h>
+#include <atcoder/all>
 using namespace std;
+using namespace atcoder;
 using ll=long long;
 using vb=vector<bool>;
 using vvb=vector<vb>;
@@ -48,9 +50,43 @@ template<class T>void puta(T&&t){cout<<t<<"\n";}
 template<class H,class...T>void puta(H&&h,T&&...t){cout<<h<<' ';puta(t...);}
 template<class S,class T>ostream&operator<<(ostream&os,pair<S,T>p){os<<"["<<p.first<<", "<<p.second<<"]";return os;};
 template<class S>auto&operator<<(ostream&os,vector<S>t){bool a=1; for(auto s:t){os<<(a?"":" ")<<s;a=0;} return os;}
-
+struct UnionFind{
+	vl par,dist;
+	UnionFind(int x){par.assign(x,-1); dist.assign(x,0);}
+	ll find(ll x){return par[x]<0?x:find(par[x]);}
+	ll depth(ll x){return par[x]<0?0:depth(par[x])+dist[x];}
+	bool same(ll x,ll y){return find(x)==find(y);}
+	ll size(ll x){return -par[find(x)];}
+	ll diff(ll x,ll y){return same(x,y)?depth(x)-depth(y):LINF;}
+	bool unite(ll x,ll y,ll k=0){
+		k+=depth(y); k-=depth(x); k=-k;
+		x=find(x); y=find(y);
+		if(x==y)return false;
+		if(size(x)<size(y)){swap(x,y);k=-k;}
+		par[x]+=par[y]; par[y]=x; dist[y]=k;
+		return true;
+	}
+};
 int main(){
 	cin.tie(0);
 	ios::sync_with_stdio(false);
-	
+	string s,t,tmp;
+	cin>>s>>t;
+	tmp=s;
+	while(s.size()<t.size())s+=tmp;
+	ll n=s.size();
+	ll m=t.size();
+	UnionFind u(n);
+	auto v=z_algorithm(t+s+s);
+	rep(i,n){
+		if(v[i+m]<m)continue;
+		if(u.same(i,(i+m)%n)){
+			puta(-1);
+			return 0;
+		}
+		u.unite(i,(i+m)%n);
+	}
+	ll ans=0;
+	rep(i,n)chmax(ans,u.size(i)-1);
+	puta(ans);
 }

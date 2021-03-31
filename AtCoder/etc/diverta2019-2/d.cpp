@@ -1,5 +1,7 @@
 #include <bits/stdc++.h>
+#include <atcoder/all>
 using namespace std;
+using namespace atcoder;
 using ll=long long;
 using vb=vector<bool>;
 using vvb=vector<vb>;
@@ -18,13 +20,14 @@ using vs=vector<string>;
 #define all(a) a.begin(),a.end()
 #define rall(a) a.rbegin(),a.rend()
 #define rep(i,n) range(i,0,n)
-#define rrep(i,n) for(int i=(n)-1;i>=0;i--)
-#define range(i,a,n) for(int i=(a);i<(n);i++)
+#define rrep(i,n) for(ll i=(n)-1;i>=0;i--)
+#define range(i,a,n) for(ll i=(a);i<(n);i++)
 
 #define LINF ((ll)1ll<<60)
 #define INF ((int)1<<30)
 #define EPS (1e-9)
 #define MOD (1000000007ll)
+//#define MOD (998244353ll)
 #define fcout(a) cout<<setprecision(a)<<fixed
 #define fs first
 #define sc second
@@ -40,37 +43,41 @@ template<class S>S min(vector<S>&a){return *min_element(all(a));}
 void YN(bool b){cout<<(b?"YES":"NO")<<"\n";}
 void Yn(bool b){cout<<(b?"Yes":"No")<<"\n";}
 void yn(bool b){cout<<(b?"yes":"no")<<"\n";}
+int sgn(const double&r){return (r>EPS)-(r<-EPS);} // a>0  : sgn(a)>0
+int sgn(const double&a,const double&b){return sgn(a-b);} // b<=c : sgn(b,c)<=0
 
 ll max(int a,ll b){return max((ll)a,b);} ll max(ll a,int b){return max(a,(ll)b);}
 template<class T>void puta(T&&t){cout<<t<<"\n";}
 template<class H,class...T>void puta(H&&h,T&&...t){cout<<h<<' ';puta(t...);}
-template<class S,class T>ostream&operator<<(ostream&os,pair<S,T>p){os<<"["<<p.first<<", "<<p.second<<"]";return os;};
+template<class S,class T>ostream&operator<<(ostream&os,pair<S,T>p){os<<"["<<p.first<<", "<<p.second<<"]";return os;}
 template<class S>auto&operator<<(ostream&os,vector<S>t){bool a=1; for(auto s:t){os<<(a?"":" ")<<s;a=0;} return os;}
 
 int main(){
 	cin.tie(0);
 	ios::sync_with_stdio(false);
-	ll n,tmp;
+	ll n,tar,ans=0;
 	cin>>n;
-	ll ans1=n,ans2=n;
-	vl a(3),b(3),c(3),d(3);
+	vl a(3),b(3);
 	rep(i,3)cin>>a[i];
 	rep(i,3)cin>>b[i];
-	rep(i,8){
-		vl x,y;
-		tmp=n;
+	vl sp(n+1);
+	rep(i,n+1){
 		rep(j,3){
-			((1<<j)&i?x:y).push_back(j);
+			tar=i-a[j];
+			if(tar<0)continue;
+			chmax(sp[i],sp[tar]+b[j]);
 		}
-		if(x.size()==0||y.size()==0)continue;
-		if(x.size()==1&&a[x[0]]<b[x[0]]){
-			rep(j,n+1){
-				int k=n-j;
-				rep(l,2){
-					
-				}
-			}
-		}
+		chmax(ans,sp[i]+n-i);
 	}
-
+	ll mx=ans;
+	vl dp(mx+1);
+	rep(i,mx+1){
+		rep(j,3){
+			tar=i-b[j];
+			if(tar<0)continue;
+			chmax(dp[i],dp[tar]+a[j]);
+		}
+		chmax(ans,dp[i]+mx-i);
+	}
+	puta(ans);
 }

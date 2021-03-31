@@ -52,18 +52,15 @@ int main(){
 	ios::sync_with_stdio(false);
 	int n;
 	cin>>n;
-	vvl v(n,vl(n));
-	rep(i,n){
-		range(j,i+1,n){
-			v[i][j]=(j-i)%3;
-			if(v[i][j]==0)v[i][j]=3;
+	rrep(i,n){
+		vl v;
+		rep(j,i){
+			ll cnt=0,tar=j+1;
+			while(tar%2==0){
+				tar/=2;cnt++;
+			}
+			v.push_back(cnt+1);
 		}
-	}
-	rep(i,n){
-		range(j,i+1,n){
-			cout<<v[i][j];
-			if(j!=n-1)cout<<" ";
-		}
-		cout<<endl;
+		puta(v);
 	}
 }
