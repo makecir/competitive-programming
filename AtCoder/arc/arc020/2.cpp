@@ -3,7 +3,6 @@
 using namespace std;
 using namespace atcoder;
 using ll=long long;
-using ull=unsigned long long;
 using ld=long double;
 using vb=vector<bool>;
 using vvb=vector<vb>;
@@ -61,36 +60,18 @@ template<class S>auto&operator<<(ostream&os,vector<S>t){bool a=1; for(auto s:t){
 int main(){
 	cin.tie(0);
 	ios::sync_with_stdio(false);
-	ll n,k;
-	string s;
-	cin>>n>>k>>s;
-	vector<vvl> dp(n+1,vvl(k+1,vl(k+1)));
-	dp[0][0][0]=1;
-	rep(i,n){
-		bool pl,mn;
-		pl=(s[i]=='1')||(s[i]=='?');
-		mn=(s[i]=='0')||(s[i]=='?');
-		rep(j,k+1){
-			rep(l,k+1){
-				if(pl&&l!=k){
-					dp[i+1][max(j,l+1)][l+1]+=dp[i][j][l];
-					dp[i+1][max(j,l+1)][l+1]%=MOD;
-				}
-				if(mn&&!(l==0&&j==k)){
-					if(l==0){
-						dp[i+1][j+1][l]+=dp[i][j][l];
-						dp[i+1][j+1][l]%=MOD;
-					}
-					else {
-						dp[i+1][j][l-1]+=dp[i][j][l];
-						dp[i+1][j][l-1]%=MOD;
-					}
-				}
-			}
+	ll n,c,ans=LINF;
+	cin>>n>>c;
+	vl v(n);
+	rep(i,n)cin>>v[i],v[i]--;
+	rep(i,10)rep(j,10){
+		if(i==j)continue;
+		ll scr=0;
+		rep(k,n){
+			if(k%2==1)scr+=(v[k]!=i?c:0);
+			else scr+=(v[k]!=j?c:0);
 		}
+		chmin(ans,scr);
 	}
-	ll ans=0;
-	rep(j,k+1)rep(l,k+1)ans+=dp[n][j][l];
-	ans%=MOD;
 	puta(ans);
 }

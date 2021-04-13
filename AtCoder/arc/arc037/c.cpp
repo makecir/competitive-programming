@@ -27,7 +27,7 @@ using vs=vector<string>;
 #define range(i,a,n) for(ll i=(a);i<(n);i++)
 #define sz(x) (int)(x).size()
 
-#define LINF ((ll)1ll<<60)
+#define LINF ((ll)1ll<<62)
 #define INF ((int)1<<30)
 #define EPS (1e-9)
 #define MOD (1000000007ll)
@@ -62,35 +62,21 @@ int main(){
 	cin.tie(0);
 	ios::sync_with_stdio(false);
 	ll n,k;
-	string s;
-	cin>>n>>k>>s;
-	vector<vvl> dp(n+1,vvl(k+1,vl(k+1)));
-	dp[0][0][0]=1;
-	rep(i,n){
-		bool pl,mn;
-		pl=(s[i]=='1')||(s[i]=='?');
-		mn=(s[i]=='0')||(s[i]=='?');
-		rep(j,k+1){
-			rep(l,k+1){
-				if(pl&&l!=k){
-					dp[i+1][max(j,l+1)][l+1]+=dp[i][j][l];
-					dp[i+1][max(j,l+1)][l+1]%=MOD;
-				}
-				if(mn&&!(l==0&&j==k)){
-					if(l==0){
-						dp[i+1][j+1][l]+=dp[i][j][l];
-						dp[i+1][j+1][l]%=MOD;
-					}
-					else {
-						dp[i+1][j][l-1]+=dp[i][j][l];
-						dp[i+1][j][l-1]%=MOD;
-					}
-				}
-			}
+	cin>>n>>k;
+	vl a(n),b(n);
+	rep(i,n)cin>>a[i];
+	rep(i,n)cin>>b[i];
+	sort(all(a));
+	sort(all(b));
+	ll ng=0,ok=LINF;
+	while(ok-ng>1){
+		ll mid=(ng+ok)/2;
+		ll cnt=0;
+		rep(i,n){
+			cnt+=upper_bound(all(b),mid/a[i])-b.begin();
 		}
+		if(cnt>=k)ok=mid;
+		else ng=mid;
 	}
-	ll ans=0;
-	rep(j,k+1)rep(l,k+1)ans+=dp[n][j][l];
-	ans%=MOD;
-	puta(ans);
+	puta(ok);
 }

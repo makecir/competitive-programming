@@ -61,36 +61,14 @@ template<class S>auto&operator<<(ostream&os,vector<S>t){bool a=1; for(auto s:t){
 int main(){
 	cin.tie(0);
 	ios::sync_with_stdio(false);
-	ll n,k;
-	string s;
-	cin>>n>>k>>s;
-	vector<vvl> dp(n+1,vvl(k+1,vl(k+1)));
-	dp[0][0][0]=1;
-	rep(i,n){
-		bool pl,mn;
-		pl=(s[i]=='1')||(s[i]=='?');
-		mn=(s[i]=='0')||(s[i]=='?');
-		rep(j,k+1){
-			rep(l,k+1){
-				if(pl&&l!=k){
-					dp[i+1][max(j,l+1)][l+1]+=dp[i][j][l];
-					dp[i+1][max(j,l+1)][l+1]%=MOD;
-				}
-				if(mn&&!(l==0&&j==k)){
-					if(l==0){
-						dp[i+1][j+1][l]+=dp[i][j][l];
-						dp[i+1][j+1][l]%=MOD;
-					}
-					else {
-						dp[i+1][j][l-1]+=dp[i][j][l];
-						dp[i+1][j][l-1]%=MOD;
-					}
-				}
-			}
-		}
+	ll y,m,d;
+	cin>>y>>m>>d;
+	if(m<=2){
+		m+=12;
+		y--;
 	}
-	ll ans=0;
-	rep(j,k+1)rep(l,k+1)ans+=dp[n][j][l];
-	ans%=MOD;
+	ll goal=735369;
+	ll cur=365*y+y/4-y/100+y/400+306*(m+1)/10+d-429;
+	ll ans=goal-cur;
 	puta(ans);
 }

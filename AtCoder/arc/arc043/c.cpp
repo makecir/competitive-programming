@@ -61,36 +61,51 @@ template<class S>auto&operator<<(ostream&os,vector<S>t){bool a=1; for(auto s:t){
 int main(){
 	cin.tie(0);
 	ios::sync_with_stdio(false);
-	ll n,k;
-	string s;
-	cin>>n>>k>>s;
-	vector<vvl> dp(n+1,vvl(k+1,vl(k+1)));
-	dp[0][0][0]=1;
+	ll n;
+	cin>>n;
+	vl a(n),b(n);
+	rep(i,n)cin>>a[i],a[i]--;
+	rep(i,n)cin>>b[i],b[i]--;
+	vl atob(n),btoa(n);
 	rep(i,n){
-		bool pl,mn;
-		pl=(s[i]=='1')||(s[i]=='?');
-		mn=(s[i]=='0')||(s[i]=='?');
-		rep(j,k+1){
-			rep(l,k+1){
-				if(pl&&l!=k){
-					dp[i+1][max(j,l+1)][l+1]+=dp[i][j][l];
-					dp[i+1][max(j,l+1)][l+1]%=MOD;
-				}
-				if(mn&&!(l==0&&j==k)){
-					if(l==0){
-						dp[i+1][j+1][l]+=dp[i][j][l];
-						dp[i+1][j+1][l]%=MOD;
-					}
-					else {
-						dp[i+1][j][l-1]+=dp[i][j][l];
-						dp[i+1][j][l-1]%=MOD;
-					}
+		atob[a[i]]=i;
+		btoa[i]=a[i];
+	}
+	rep(i,n){
+		a[i]=i;
+		b[i]=atob[b[i]];
+	}
+	fenwick_tree<ll> tr(n);
+	ll ab=0;
+	rep(i,n){
+		ab+=tr.sum(b[i]+1,n);
+		tr.add(b[i],1);
+	}
+	if(ab%2!=0){
+		puta(-1);
+	}
+	else{
+		fenwick_tree<ll> fw(n);
+		ll cur=0;
+		auto itr=b.begin();
+		rep(i,n){
+			ll tmp=fw.sum(b[i]+1,n);
+			if(cur+tmp>(ab/2))break;
+			itr++;
+			cur+=tmp;
+			fw.add(b[i],1);
+		}
+		sort(b.begin(),itr);
+		ll pos=itr-b.begin();
+		if(pos!=n){
+			for(ll i=pos-1;i>=0&&cur*2<ab;i--){
+				if(b[i]>b[i+1]){
+					swap(b[i],b[i+1]);
+					cur++;
 				}
 			}
 		}
+		rep(i,n)b[i]=btoa[b[i]]+1;
+		puta(b);
 	}
-	ll ans=0;
-	rep(j,k+1)rep(l,k+1)ans+=dp[n][j][l];
-	ans%=MOD;
-	puta(ans);
 }

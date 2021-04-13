@@ -61,36 +61,22 @@ template<class S>auto&operator<<(ostream&os,vector<S>t){bool a=1; for(auto s:t){
 int main(){
 	cin.tie(0);
 	ios::sync_with_stdio(false);
-	ll n,k;
-	string s;
-	cin>>n>>k>>s;
-	vector<vvl> dp(n+1,vvl(k+1,vl(k+1)));
-	dp[0][0][0]=1;
-	rep(i,n){
-		bool pl,mn;
-		pl=(s[i]=='1')||(s[i]=='?');
-		mn=(s[i]=='0')||(s[i]=='?');
-		rep(j,k+1){
-			rep(l,k+1){
-				if(pl&&l!=k){
-					dp[i+1][max(j,l+1)][l+1]+=dp[i][j][l];
-					dp[i+1][max(j,l+1)][l+1]%=MOD;
-				}
-				if(mn&&!(l==0&&j==k)){
-					if(l==0){
-						dp[i+1][j+1][l]+=dp[i][j][l];
-						dp[i+1][j+1][l]%=MOD;
-					}
-					else {
-						dp[i+1][j][l-1]+=dp[i][j][l];
-						dp[i+1][j][l-1]%=MOD;
-					}
-				}
-			}
-		}
+	ll h,w,ans=0;
+	cin>>h>>w;
+	vvl vv(h,vl(w)),sum(h+1,vl(w+1));
+	rep(i,h)rep(j,w){
+		cin>>vv[i][j];
+		if((i+j)%2==1)vv[i][j]*=-1;
 	}
-	ll ans=0;
-	rep(j,k+1)rep(l,k+1)ans+=dp[n][j][l];
-	ans%=MOD;
+	rep(i,h)rep(j,w){
+		sum[i+1][j+1]=sum[i+1][j]+vv[i][j];
+	}
+	rep(i,h)rep(j,w+1){
+		sum[i+1][j]+=sum[i][j];
+	}
+	rep(i,h)rep(j,w)rep(k,i+1)rep(l,j+1){
+		ll scr=sum[i+1][j+1]-sum[k][j+1]-sum[i+1][l]+sum[k][l];
+		if(scr==0)chmax(ans,(i-k+1)*(j-l+1));
+	}
 	puta(ans);
 }

@@ -57,40 +57,38 @@ template<class T>void puta(T&&t){cout<<t<<"\n";}
 template<class H,class...T>void puta(H&&h,T&&...t){cout<<h<<' ';puta(t...);}
 template<class S,class T>ostream&operator<<(ostream&os,pair<S,T>p){os<<"["<<p.first<<", "<<p.second<<"]";return os;}
 template<class S>auto&operator<<(ostream&os,vector<S>t){bool a=1; for(auto s:t){os<<(a?"":" ")<<s;a=0;} return os;}
+vl fact,finv;
+ll modpw(ll x,ll k){
+	ll res=1;
+	while(k!=0){
+		if(k&1)res=res*x%MOD;
+		x=x*x%MOD;
+		k=k>>1;
+	}
+	return res;
+}
 
 int main(){
 	cin.tie(0);
 	ios::sync_with_stdio(false);
-	ll n,k;
-	string s;
-	cin>>n>>k>>s;
-	vector<vvl> dp(n+1,vvl(k+1,vl(k+1)));
-	dp[0][0][0]=1;
-	rep(i,n){
-		bool pl,mn;
-		pl=(s[i]=='1')||(s[i]=='?');
-		mn=(s[i]=='0')||(s[i]=='?');
-		rep(j,k+1){
-			rep(l,k+1){
-				if(pl&&l!=k){
-					dp[i+1][max(j,l+1)][l+1]+=dp[i][j][l];
-					dp[i+1][max(j,l+1)][l+1]%=MOD;
-				}
-				if(mn&&!(l==0&&j==k)){
-					if(l==0){
-						dp[i+1][j+1][l]+=dp[i][j][l];
-						dp[i+1][j+1][l]%=MOD;
-					}
-					else {
-						dp[i+1][j][l-1]+=dp[i][j][l];
-						dp[i+1][j][l-1]%=MOD;
-					}
-				}
+	ll n,ans=1;
+	cin>>n;
+	vl v(n);
+	rep(i,n)cin>>v[i];
+	ll mn=v[0],len=0;
+	range(i,1,n){
+		if(v[i]==-1)len++;
+		else{
+			if(len!=0){
+				ll tmp=1;
+				ll dif=v[i]-mn;
+				rep(i,len)tmp=(tmp*(len+dif-i))%MOD;
+				rep(i,len)tmp=(tmp*modpw(i+1,MOD-2))%MOD;
+				ans=ans*tmp%MOD;
+				len=0;
 			}
+			mn=v[i];
 		}
 	}
-	ll ans=0;
-	rep(j,k+1)rep(l,k+1)ans+=dp[n][j][l];
-	ans%=MOD;
 	puta(ans);
 }

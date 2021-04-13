@@ -62,35 +62,23 @@ int main(){
 	cin.tie(0);
 	ios::sync_with_stdio(false);
 	ll n,k;
+	cin>>n>>k;
 	string s;
-	cin>>n>>k>>s;
-	vector<vvl> dp(n+1,vvl(k+1,vl(k+1)));
-	dp[0][0][0]=1;
-	rep(i,n){
-		bool pl,mn;
-		pl=(s[i]=='1')||(s[i]=='?');
-		mn=(s[i]=='0')||(s[i]=='?');
-		rep(j,k+1){
-			rep(l,k+1){
-				if(pl&&l!=k){
-					dp[i+1][max(j,l+1)][l+1]+=dp[i][j][l];
-					dp[i+1][max(j,l+1)][l+1]%=MOD;
-				}
-				if(mn&&!(l==0&&j==k)){
-					if(l==0){
-						dp[i+1][j+1][l]+=dp[i][j][l];
-						dp[i+1][j+1][l]%=MOD;
-					}
-					else {
-						dp[i+1][j][l-1]+=dp[i][j][l];
-						dp[i+1][j][l-1]%=MOD;
-					}
-				}
-			}
-		}
+	cin>>s;
+	bool ans=false;
+	set<vi> st;
+	vi v(26);
+	vvi vv(n);
+	rep(i,k)v[s[i]-'a']++;
+	vv[0]=v;
+	//st.insert(v);
+	rep(i,n-k){
+		v[s[i+k]-'a']++;
+		v[s[i]-'a']--;
+		vv[i+1]=v;
+		if(i-(k-1)>=0)st.insert(vv[i-(k-1)]);
+		if(st.find(v)!=st.end())ans=true;
 	}
-	ll ans=0;
-	rep(j,k+1)rep(l,k+1)ans+=dp[n][j][l];
-	ans%=MOD;
-	puta(ans);
+	YN(ans);
+	
 }

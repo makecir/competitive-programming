@@ -57,40 +57,35 @@ template<class T>void puta(T&&t){cout<<t<<"\n";}
 template<class H,class...T>void puta(H&&h,T&&...t){cout<<h<<' ';puta(t...);}
 template<class S,class T>ostream&operator<<(ostream&os,pair<S,T>p){os<<"["<<p.first<<", "<<p.second<<"]";return os;}
 template<class S>auto&operator<<(ostream&os,vector<S>t){bool a=1; for(auto s:t){os<<(a?"":" ")<<s;a=0;} return os;}
+ll op(ll a, ll b) {
+	return min(a, b);
+}
+
+ll e() {
+	return LINF;
+}
 
 int main(){
 	cin.tie(0);
 	ios::sync_with_stdio(false);
-	ll n,k;
-	string s;
-	cin>>n>>k>>s;
-	vector<vvl> dp(n+1,vvl(k+1,vl(k+1)));
-	dp[0][0][0]=1;
-	rep(i,n){
-		bool pl,mn;
-		pl=(s[i]=='1')||(s[i]=='?');
-		mn=(s[i]=='0')||(s[i]=='?');
-		rep(j,k+1){
-			rep(l,k+1){
-				if(pl&&l!=k){
-					dp[i+1][max(j,l+1)][l+1]+=dp[i][j][l];
-					dp[i+1][max(j,l+1)][l+1]%=MOD;
-				}
-				if(mn&&!(l==0&&j==k)){
-					if(l==0){
-						dp[i+1][j+1][l]+=dp[i][j][l];
-						dp[i+1][j+1][l]%=MOD;
-					}
-					else {
-						dp[i+1][j][l-1]+=dp[i][j][l];
-						dp[i+1][j][l-1]%=MOD;
-					}
-				}
-			}
+	ll n,xsum=0;
+	cin>>n;
+	vl c(n-1),a(n-1),gr(n);
+	rep(i,n-1)cin>>c[i]>>a[i];
+	vl v(n,-1);
+	segtree<ll,op,e> seg(v);
+	seg.set(0,0);
+	rep(i,n-1){
+		ll ok=n-1,ng=-1;
+		while(ok-ng>1){
+			ll mid=(ok+ng)/2;
+			if(seg.prod(0,mid+1)<i+1-c[i])ok=mid;
+			else ng=mid;
 		}
+		gr[i+1]=ok;
+		if(a[i]%2==1)xsum^=gr[i+1];
+		seg.set(ok,i+1);
 	}
-	ll ans=0;
-	rep(j,k+1)rep(l,k+1)ans+=dp[n][j][l];
-	ans%=MOD;
+	string ans=(xsum!=0?"First":"Second");
 	puta(ans);
 }

@@ -3,7 +3,6 @@
 using namespace std;
 using namespace atcoder;
 using ll=long long;
-using ull=unsigned long long;
 using ld=long double;
 using vb=vector<bool>;
 using vvb=vector<vb>;
@@ -58,39 +57,58 @@ template<class H,class...T>void puta(H&&h,T&&...t){cout<<h<<' ';puta(t...);}
 template<class S,class T>ostream&operator<<(ostream&os,pair<S,T>p){os<<"["<<p.first<<", "<<p.second<<"]";return os;}
 template<class S>auto&operator<<(ostream&os,vector<S>t){bool a=1; for(auto s:t){os<<(a?"":" ")<<s;a=0;} return os;}
 
+ll op(ll a, ll b) {
+	return gcd(abs(a), abs(b));
+}
+
+ll e() {
+	return ll(0);
+}
+
+struct S {
+	ll val;
+	int size;
+};
+
+using F = ll;
+
+S opl(S l, S r) { return S{l.val + r.val, l.size + r.size}; }
+
+S el() { return S{0, 0}; }
+
+S mapping(F l, S r) { 
+	return {r.val + r.size * l,r.size};
+}
+
+F composition(F l, F r) { return l+r; }
+
+F id() { return 0; }
+
 int main(){
 	cin.tie(0);
 	ios::sync_with_stdio(false);
-	ll n,k;
-	string s;
-	cin>>n>>k>>s;
-	vector<vvl> dp(n+1,vvl(k+1,vl(k+1)));
-	dp[0][0][0]=1;
+	ll n,m,t,l,r;
+	cin>>n;
+	vl a(n);
+	lazy_segtree<S,opl,el,F,mapping,composition,id> lseg(n);
+	segtree<ll,op,e> seg(n-1);
+	rep(i,n)cin>>a[i];
 	rep(i,n){
-		bool pl,mn;
-		pl=(s[i]=='1')||(s[i]=='?');
-		mn=(s[i]=='0')||(s[i]=='?');
-		rep(j,k+1){
-			rep(l,k+1){
-				if(pl&&l!=k){
-					dp[i+1][max(j,l+1)][l+1]+=dp[i][j][l];
-					dp[i+1][max(j,l+1)][l+1]%=MOD;
-				}
-				if(mn&&!(l==0&&j==k)){
-					if(l==0){
-						dp[i+1][j+1][l]+=dp[i][j][l];
-						dp[i+1][j+1][l]%=MOD;
-					}
-					else {
-						dp[i+1][j][l-1]+=dp[i][j][l];
-						dp[i+1][j][l-1]%=MOD;
-					}
-				}
-			}
+		lseg.set(i,{a[i],1});
+		if(i!=0)seg.set(i-1,a[i]-a[i-1]);
+	}
+	cin>>m;
+	rep(i,m){
+		cin>>t>>l>>r;
+		l--;r--;
+		if(t==0){
+			ll ans=gcd(lseg.get(l).val,seg.prod(l,r));
+			puta(ans);
+		}
+		else{
+			lseg.apply(l,r+1,t);
+			if(l!=0)seg.set(l-1,lseg.get(l).val-lseg.get(l-1).val);
+			if(r!=n-1)seg.set(r,lseg.get(r+1).val-lseg.get(r).val);
 		}
 	}
-	ll ans=0;
-	rep(j,k+1)rep(l,k+1)ans+=dp[n][j][l];
-	ans%=MOD;
-	puta(ans);
 }

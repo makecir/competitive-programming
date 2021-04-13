@@ -61,36 +61,27 @@ template<class S>auto&operator<<(ostream&os,vector<S>t){bool a=1; for(auto s:t){
 int main(){
 	cin.tie(0);
 	ios::sync_with_stdio(false);
-	ll n,k;
-	string s;
-	cin>>n>>k>>s;
-	vector<vvl> dp(n+1,vvl(k+1,vl(k+1)));
-	dp[0][0][0]=1;
-	rep(i,n){
-		bool pl,mn;
-		pl=(s[i]=='1')||(s[i]=='?');
-		mn=(s[i]=='0')||(s[i]=='?');
-		rep(j,k+1){
-			rep(l,k+1){
-				if(pl&&l!=k){
-					dp[i+1][max(j,l+1)][l+1]+=dp[i][j][l];
-					dp[i+1][max(j,l+1)][l+1]%=MOD;
-				}
-				if(mn&&!(l==0&&j==k)){
-					if(l==0){
-						dp[i+1][j+1][l]+=dp[i][j][l];
-						dp[i+1][j+1][l]%=MOD;
-					}
-					else {
-						dp[i+1][j][l-1]+=dp[i][j][l];
-						dp[i+1][j][l-1]%=MOD;
-					}
-				}
-			}
-		}
+	ll n,m,a,b,c,q;
+	cin>>n>>m;
+	vvl dist(n,vl(n,LINF));
+	rep(i,n)dist[i][i]=0;
+	rep(i,m){
+		cin>>a>>b>>c;
+		--a;--b;
+		dist[a][b]=dist[b][a]=c;
 	}
-	ll ans=0;
-	rep(j,k+1)rep(l,k+1)ans+=dp[n][j][l];
-	ans%=MOD;
-	puta(ans);
+	rep(k,n)rep(i,n)rep(j,n)chmin(dist[i][j],dist[i][k]+dist[k][j]);
+	cin>>q;
+	while(q--){
+		cin>>a>>b>>c;
+		--a;--b;
+		chmin(dist[a][b],c);
+		chmin(dist[b][a],c);
+		rep(i,n)rep(j,n)chmin(dist[i][j],dist[i][a]+dist[a][j]);
+		rep(i,n)rep(j,n)chmin(dist[i][j],dist[i][b]+dist[b][j]);
+		ll ans=0;
+		rep(i,n)rep(j,i)ans+=dist[i][j];
+		puta(ans);
+	}
+
 }

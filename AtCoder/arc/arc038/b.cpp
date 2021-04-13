@@ -37,7 +37,7 @@ using vs=vector<string>;
 #define sc second
 #define PI 3.1415926535897932384
 
-int dx[]={1,0,-1,0,1,-1,-1,1},dy[]={0,1,0,-1,1,1,-1,-1};
+int dx[]={1,1,0},dy[]={0,1,1};
 
 template<class T>bool chmax(T&a,T b){if(a<b){a=b; return true;}return false;}
 template<class T>bool chmin(T&a,T b){if(a>b){a=b; return true;}return false;}
@@ -61,36 +61,29 @@ template<class S>auto&operator<<(ostream&os,vector<S>t){bool a=1; for(auto s:t){
 int main(){
 	cin.tie(0);
 	ios::sync_with_stdio(false);
-	ll n,k;
-	string s;
-	cin>>n>>k>>s;
-	vector<vvl> dp(n+1,vvl(k+1,vl(k+1)));
-	dp[0][0][0]=1;
-	rep(i,n){
-		bool pl,mn;
-		pl=(s[i]=='1')||(s[i]=='?');
-		mn=(s[i]=='0')||(s[i]=='?');
-		rep(j,k+1){
-			rep(l,k+1){
-				if(pl&&l!=k){
-					dp[i+1][max(j,l+1)][l+1]+=dp[i][j][l];
-					dp[i+1][max(j,l+1)][l+1]%=MOD;
-				}
-				if(mn&&!(l==0&&j==k)){
-					if(l==0){
-						dp[i+1][j+1][l]+=dp[i][j][l];
-						dp[i+1][j+1][l]%=MOD;
-					}
-					else {
-						dp[i+1][j][l-1]+=dp[i][j][l];
-						dp[i+1][j][l-1]%=MOD;
-					}
-				}
+	ll h,w;
+	cin>>h>>w;
+	vvb bd(h+2,vb(w+2));
+	vvl gr(h+2,vl(w+2));
+	rep(i,h)rep(j,w){
+		char ch;
+		cin>>ch;
+		bd[i+1][j+1]=ch=='.';
+	}
+	rrep(i,h)rrep(j,w){
+		vl v(4);
+		rep(k,3){
+			ll ty=i+1+dy[k];
+			ll tx=j+1+dx[k];
+			if(bd[ty][tx])v[gr[ty][tx]]++;
+		}
+		rep(k,4){
+			if(v[k]==0){
+				gr[i+1][j+1]=k;
+				break;
 			}
 		}
 	}
-	ll ans=0;
-	rep(j,k+1)rep(l,k+1)ans+=dp[n][j][l];
-	ans%=MOD;
+	string ans=(gr[1][1]!=0?"First":"Second");
 	puta(ans);
 }

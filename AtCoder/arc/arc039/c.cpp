@@ -61,36 +61,81 @@ template<class S>auto&operator<<(ostream&os,vector<S>t){bool a=1; for(auto s:t){
 int main(){
 	cin.tie(0);
 	ios::sync_with_stdio(false);
-	ll n,k;
+	ll k;
 	string s;
-	cin>>n>>k>>s;
-	vector<vvl> dp(n+1,vvl(k+1,vl(k+1)));
-	dp[0][0][0]=1;
-	rep(i,n){
-		bool pl,mn;
-		pl=(s[i]=='1')||(s[i]=='?');
-		mn=(s[i]=='0')||(s[i]=='?');
-		rep(j,k+1){
-			rep(l,k+1){
-				if(pl&&l!=k){
-					dp[i+1][max(j,l+1)][l+1]+=dp[i][j][l];
-					dp[i+1][max(j,l+1)][l+1]%=MOD;
-				}
-				if(mn&&!(l==0&&j==k)){
-					if(l==0){
-						dp[i+1][j+1][l]+=dp[i][j][l];
-						dp[i+1][j+1][l]%=MOD;
-					}
-					else {
-						dp[i+1][j][l-1]+=dp[i][j][l];
-						dp[i+1][j][l-1]%=MOD;
-					}
-				}
+	cin>>k>>s;
+	ll TAB=200000;
+	vector<set<pll>> stx(TAB*2+1),sty(TAB*2+1);
+	stx[TAB].insert(pll(-2*k,-1));
+	stx[TAB].insert(pll(1,2*k));
+	sty[TAB].insert(pll(-2*k,-1));
+	sty[TAB].insert(pll(1,2*k));
+	rep(i,TAB*2+1)if(i!=TAB)stx[i].insert(pll(-2*k,2*k));
+	rep(i,TAB*2+1)if(i!=TAB)sty[i].insert(pll(-2*k,2*k));
+	ll x=0,y=0;
+	rep(i,k){
+		if(s[i]=='R'){
+			auto itr=sty[y+TAB].upper_bound(pll(x,LINF));
+			x=(*itr).fs;
+			auto p=*itr;
+			sty[y+TAB].erase(itr);
+			if(x!=p.sc)sty[y+TAB].insert(pll(x+1,p.sc));
+			itr=stx[x+TAB].upper_bound(pll(y,LINF));
+			itr--;
+			p=*itr;
+			if(p.sc>=y){
+				if(p.fs!=y)stx[x+TAB].insert(pll(p.fs,y-1));
+				if(p.sc>y)stx[x+TAB].insert(pll(y+1,p.sc));
+				stx[x+TAB].erase(itr);
+			}
+		}
+		if(s[i]=='L'){
+			auto itr=sty[y+TAB].upper_bound(pll(x,LINF));
+			itr--;
+			x=(*itr).sc;
+			auto p=*itr;
+			sty[y+TAB].erase(itr);
+			if(x!=p.fs)sty[y+TAB].insert(pll(p.fs,x-1));
+			itr=stx[x+TAB].upper_bound(pll(y,LINF));
+			itr--;
+			p=*itr;
+			if(p.sc>=y){
+				if(p.fs!=y)stx[x+TAB].insert(pll(p.fs,y-1));
+				if(p.sc>y)stx[x+TAB].insert(pll(y+1,p.sc));
+				stx[x+TAB].erase(itr);
+			}
+		}
+		if(s[i]=='U'){
+			auto itr=stx[x+TAB].upper_bound(pll(y,LINF));
+			y=(*itr).fs;
+			auto p=*itr;
+			stx[x+TAB].erase(itr);
+			if(y!=p.sc)stx[x+TAB].insert(pll(y+1,p.sc));
+			itr=sty[y+TAB].upper_bound(pll(x,LINF));
+			itr--;
+			p=*itr;
+			if(p.sc>=x){
+				if(p.fs!=x)sty[y+TAB].insert(pll(p.fs,x-1));
+				if(p.sc>x)sty[y+TAB].insert(pll(x+1,p.sc));
+				sty[y+TAB].erase(itr);
+			}
+		}
+		if(s[i]=='D'){
+			auto itr=stx[x+TAB].upper_bound(pll(y,LINF));
+			itr--;
+			y=(*itr).sc;
+			auto p=*itr;
+			stx[x+TAB].erase(itr);
+			if(y!=p.fs)stx[x+TAB].insert(pll(p.fs,y-1));
+			itr=sty[y+TAB].upper_bound(pll(x,LINF));
+			itr--;
+			p=*itr;
+			if(p.sc>=x){
+				if(p.fs!=x)sty[y+TAB].insert(pll(p.fs,x-1));
+				if(p.sc>x)sty[y+TAB].insert(pll(x+1,p.sc));
+				sty[y+TAB].erase(itr);
 			}
 		}
 	}
-	ll ans=0;
-	rep(j,k+1)rep(l,k+1)ans+=dp[n][j][l];
-	ans%=MOD;
-	puta(ans);
+	puta(x,y);
 }

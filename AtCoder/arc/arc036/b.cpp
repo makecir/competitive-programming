@@ -3,8 +3,6 @@
 using namespace std;
 using namespace atcoder;
 using ll=long long;
-using ull=unsigned long long;
-using ld=long double;
 using vb=vector<bool>;
 using vvb=vector<vb>;
 using vd=vector<double>;
@@ -15,7 +13,6 @@ using vl=vector<ll>;
 using vvl=vector<vl>;
 using pii=pair<int,int>;
 using pll=pair<ll,ll>;
-using vpll=vector<pll>;
 using tll=tuple<ll,ll>;
 using tlll=tuple<ll,ll,ll>;
 using vs=vector<string>;
@@ -25,7 +22,6 @@ using vs=vector<string>;
 #define rep(i,n) range(i,0,n)
 #define rrep(i,n) for(ll i=(n)-1;i>=0;i--)
 #define range(i,a,n) for(ll i=(a);i<(n);i++)
-#define sz(x) (int)(x).size()
 
 #define LINF ((ll)1ll<<60)
 #define INF ((int)1<<30)
@@ -49,8 +45,6 @@ void Yn(bool b){cout<<(b?"Yes":"No")<<"\n";}
 void yn(bool b){cout<<(b?"yes":"no")<<"\n";}
 int sgn(const double&r){return (r>EPS)-(r<-EPS);} // a>0  : sgn(a)>0
 int sgn(const double&a,const double&b){return sgn(a-b);} // b<=c : sgn(b,c)<=0
-int popcnt(int x){return __builtin_popcount(x);}
-int popcnt(ll x){return __builtin_popcountll(x);}
 
 ll max(int a,ll b){return max((ll)a,b);} ll max(ll a,int b){return max(a,(ll)b);}
 template<class T>void puta(T&&t){cout<<t<<"\n";}
@@ -61,36 +55,16 @@ template<class S>auto&operator<<(ostream&os,vector<S>t){bool a=1; for(auto s:t){
 int main(){
 	cin.tie(0);
 	ios::sync_with_stdio(false);
-	ll n,k;
-	string s;
-	cin>>n>>k>>s;
-	vector<vvl> dp(n+1,vvl(k+1,vl(k+1)));
-	dp[0][0][0]=1;
-	rep(i,n){
-		bool pl,mn;
-		pl=(s[i]=='1')||(s[i]=='?');
-		mn=(s[i]=='0')||(s[i]=='?');
-		rep(j,k+1){
-			rep(l,k+1){
-				if(pl&&l!=k){
-					dp[i+1][max(j,l+1)][l+1]+=dp[i][j][l];
-					dp[i+1][max(j,l+1)][l+1]%=MOD;
-				}
-				if(mn&&!(l==0&&j==k)){
-					if(l==0){
-						dp[i+1][j+1][l]+=dp[i][j][l];
-						dp[i+1][j+1][l]%=MOD;
-					}
-					else {
-						dp[i+1][j][l-1]+=dp[i][j][l];
-						dp[i+1][j][l-1]%=MOD;
-					}
-				}
-			}
+	ll n,ans=0,prev=0;
+	cin>>n;
+	vl v(n);
+	rep(i,n)cin>>v[i];
+	for(int i=1;i<n-1;i++){
+		if(v[i-1]>=v[i]&&v[i+1]>=v[i]){
+			chmax(ans,i-prev+1);
+			prev=i;
 		}
 	}
-	ll ans=0;
-	rep(j,k+1)rep(l,k+1)ans+=dp[n][j][l];
-	ans%=MOD;
+	chmax(ans,n-prev);
 	puta(ans);
 }

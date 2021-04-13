@@ -3,7 +3,6 @@
 using namespace std;
 using namespace atcoder;
 using ll=long long;
-using ull=unsigned long long;
 using ld=long double;
 using vb=vector<bool>;
 using vvb=vector<vb>;
@@ -61,36 +60,28 @@ template<class S>auto&operator<<(ostream&os,vector<S>t){bool a=1; for(auto s:t){
 int main(){
 	cin.tie(0);
 	ios::sync_with_stdio(false);
-	ll n,k;
-	string s;
-	cin>>n>>k>>s;
-	vector<vvl> dp(n+1,vvl(k+1,vl(k+1)));
-	dp[0][0][0]=1;
-	rep(i,n){
-		bool pl,mn;
-		pl=(s[i]=='1')||(s[i]=='?');
-		mn=(s[i]=='0')||(s[i]=='?');
-		rep(j,k+1){
-			rep(l,k+1){
-				if(pl&&l!=k){
-					dp[i+1][max(j,l+1)][l+1]+=dp[i][j][l];
-					dp[i+1][max(j,l+1)][l+1]%=MOD;
-				}
-				if(mn&&!(l==0&&j==k)){
-					if(l==0){
-						dp[i+1][j+1][l]+=dp[i][j][l];
-						dp[i+1][j+1][l]%=MOD;
-					}
-					else {
-						dp[i+1][j][l-1]+=dp[i][j][l];
-						dp[i+1][j][l-1]%=MOD;
-					}
-				}
+	ll n,m,x,a,p,ans=0;
+	cin>>n>>m>>x>>a>>p;
+	if(a%p==0){
+		if(x>=p)ans=2*(n-1);
+		else ans=0;
+	}
+	else{
+		vpll v(n*m);
+		v[0]={x,0ll};
+		rep(i,n*m-1){
+			v[i+1]={(v[i].fs+a)%p,i+1};
+		}
+		sort(all(v));
+		rep(i,n){
+			vl x(m);
+			rep(j,m){
+				ans+=abs(i-v[i*m+j].sc/m);
+				x[j]=v[i*m+j].sc%m;
 			}
+			sort(all(x));
+			rep(j,m)ans+=abs(j-x[j]);
 		}
 	}
-	ll ans=0;
-	rep(j,k+1)rep(l,k+1)ans+=dp[n][j][l];
-	ans%=MOD;
 	puta(ans);
 }

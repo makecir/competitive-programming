@@ -71,6 +71,7 @@ S mapping(F l, S r) {
 F composition(F l, F r) { return F{(l == ID ? r : l)}; }
 
 F id() { return ID; }
+
 int main(){
 	cin.tie(0);
 	ios::sync_with_stdio(false);

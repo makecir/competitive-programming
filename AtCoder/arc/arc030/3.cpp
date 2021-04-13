@@ -61,36 +61,40 @@ template<class S>auto&operator<<(ostream&os,vector<S>t){bool a=1; for(auto s:t){
 int main(){
 	cin.tie(0);
 	ios::sync_with_stdio(false);
-	ll n,k;
-	string s;
-	cin>>n>>k>>s;
-	vector<vvl> dp(n+1,vvl(k+1,vl(k+1)));
-	dp[0][0][0]=1;
-	rep(i,n){
-		bool pl,mn;
-		pl=(s[i]=='1')||(s[i]=='?');
-		mn=(s[i]=='0')||(s[i]=='?');
-		rep(j,k+1){
-			rep(l,k+1){
-				if(pl&&l!=k){
-					dp[i+1][max(j,l+1)][l+1]+=dp[i][j][l];
-					dp[i+1][max(j,l+1)][l+1]%=MOD;
-				}
-				if(mn&&!(l==0&&j==k)){
-					if(l==0){
-						dp[i+1][j+1][l]+=dp[i][j][l];
-						dp[i+1][j+1][l]%=MOD;
-					}
-					else {
-						dp[i+1][j][l-1]+=dp[i][j][l];
-						dp[i+1][j][l-1]%=MOD;
-					}
+	ll n,m,k;
+	cin>>n>>m>>k;
+	vector<char> c(n);
+	vl a(m),b(m);
+	scc_graph g(n);
+	rep(i,n)cin>>c[i];
+	rep(i,m){
+		cin>>a[i]>>b[i];
+		g.add_edge(--a[i],--b[i]);
+	}
+	auto v=g.scc();
+	ll sz=v.size();
+	map<ll,ll> mp;
+	rep(i,sz)for(auto x:v[i])mp[x]=i;
+	vector<set<ll>> rev(sz);
+	rep(i,m)if(mp[a[i]]!=mp[b[i]])rev[mp[b[i]]].insert(mp[a[i]]+1);
+	vector<vs> dp(sz+1,vs(n+1));
+	string tmp(k+1,'z'),ans(k+1,'z');
+	rep(i,sz+1)rep(j,k+1)if(i!=0||j!=0)dp[i][j]=tmp;
+	rep(i,sz){
+		string cur;
+		for(auto x:v[i])cur+=c[x];
+		sort(all(cur));
+		rev[i].insert(0);
+		for(auto x:rev[i]){
+			rep(j,sz(cur)+1){
+				rep(l,k+1){
+					if(l+j>k)continue;
+					chmin(dp[i+1][l+j],dp[x][l]+cur.substr(0,j));
 				}
 			}
 		}
+		chmin(ans,dp[i+1][k]);
 	}
-	ll ans=0;
-	rep(j,k+1)rep(l,k+1)ans+=dp[n][j][l];
-	ans%=MOD;
-	puta(ans);
+	if(ans==tmp)puta(-1);
+	else puta(ans);
 }

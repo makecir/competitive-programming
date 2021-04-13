@@ -58,39 +58,73 @@ template<class H,class...T>void puta(H&&h,T&&...t){cout<<h<<' ';puta(t...);}
 template<class S,class T>ostream&operator<<(ostream&os,pair<S,T>p){os<<"["<<p.first<<", "<<p.second<<"]";return os;}
 template<class S>auto&operator<<(ostream&os,vector<S>t){bool a=1; for(auto s:t){os<<(a?"":" ")<<s;a=0;} return os;}
 
+struct S {
+	ld val;
+	int size;
+};
+
+using F = ld;
+const F ID = 1E300;
+
+S op(S l, S r) { return S{l.val + r.val, l.size + r.size}; }
+
+S e() { return S{0, 0}; }
+
+S mapping(F l, S r) { 
+	if(l != ID) r.val = r.size * l;
+	return S{r}; 
+}
+
+F composition(F l, F r) { return F{(l == ID ? r : l)}; }
+
+F id() { return ID; }
+
 int main(){
 	cin.tie(0);
 	ios::sync_with_stdio(false);
-	ll n,k;
-	string s;
-	cin>>n>>k>>s;
-	vector<vvl> dp(n+1,vvl(k+1,vl(k+1)));
-	dp[0][0][0]=1;
-	rep(i,n){
-		bool pl,mn;
-		pl=(s[i]=='1')||(s[i]=='?');
-		mn=(s[i]=='0')||(s[i]=='?');
-		rep(j,k+1){
-			rep(l,k+1){
-				if(pl&&l!=k){
-					dp[i+1][max(j,l+1)][l+1]+=dp[i][j][l];
-					dp[i+1][max(j,l+1)][l+1]%=MOD;
-				}
-				if(mn&&!(l==0&&j==k)){
-					if(l==0){
-						dp[i+1][j+1][l]+=dp[i][j][l];
-						dp[i+1][j+1][l]%=MOD;
-					}
-					else {
-						dp[i+1][j][l-1]+=dp[i][j][l];
-						dp[i+1][j][l-1]%=MOD;
-					}
-				}
+	ll n,que,t;
+	cin>>n;
+	ll MX=1E6*2;
+	vector<S> initv(MX+1,{0,1});
+	lazy_segtree<S,op,e,F,mapping,composition,id> lg(initv);
+	rep(i,MX)lg.set(i+1,{log(i+1),1});
+	vector<S> v(n-1,{0,1});
+	lazy_segtree<S,op,e,F,mapping,composition,id> seg(v);
+	vl p(n),q(n);
+	rep(i,n)cin>>p[i]>>q[i];
+	rep(i,n-1){
+		ll x,y;
+		x=p[i+1]-p[i];
+		y=q[i+1]-q[i];
+		seg.set(i,{lg.prod(y+1,x+y+1).val-lg.prod(1,x+1).val,1});
+	}
+	cin>>que;
+	while(que--){
+		cin>>t;
+		if(t==2){
+			ll a,b,c,d;
+			cin>>a>>b>>c>>d;
+			ld l=seg.prod(--a,--b).val;
+			ld r=seg.prod(--c,--d).val;
+			string ans=(l>r?"FIRST":"SECOND");
+			puta(ans);
+		}
+		else{
+			ll tar,a,b,x,y;
+			cin>>tar>>a>>b;
+			tar--;
+			p[tar]=a;
+			q[tar]=b;
+			if(tar!=0){
+				x=p[tar]-p[tar-1];
+				y=q[tar]-q[tar-1];
+				seg.set(tar-1,{lg.prod(y+1,x+y+1).val-lg.prod(1,x+1).val,1});
+			}
+			if(tar!=n-1){
+				x=p[tar+1]-p[tar];
+				y=q[tar+1]-q[tar];
+				seg.set(tar,{lg.prod(y+1,x+y+1).val-lg.prod(1,x+1).val,1});
 			}
 		}
 	}
-	ll ans=0;
-	rep(j,k+1)rep(l,k+1)ans+=dp[n][j][l];
-	ans%=MOD;
-	puta(ans);
 }
