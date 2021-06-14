@@ -7,16 +7,17 @@ using vl = vector<ll>;
 using vll = vector<vl>;
 #define MOD 1000000007
 
+// ll modpw(ll x,ll k){
+// 	ll res=1;
+// 	while(k!=0){
+// 		if(k&1)res=res*x%MOD;
+// 		x=x*x%MOD;
+// 		k=k>>1;
+// 	}
+// 	return res;
+// }
+
 vl fact,finv;
-ll modpw(ll x,ll k){
-	ll res=1;
-	while(k!=0){
-		if(k&1)res=res*x%MOD;
-		x=x*x%MOD;
-		k=k>>1;
-	}
-	return res;
-}
 
 ll comb(ll n,ll k) {
 	if(n==0&&k==0)return 1;

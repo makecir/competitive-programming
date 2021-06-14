@@ -11,7 +11,7 @@ template<class T=ll>struct Matrix{
 	Matrix& operator=(const Matrix& B){assert(ncol()==B.ncol()&&nrow()==B.nrow());rep(i,nrow())rep(j,ncol())A[i][j]=B[i][j];return *this;}
 	Matrix& operator+=(const Matrix& B){assert(ncol()==B.ncol()&&nrow()==B.nrow());rep(i,nrow())rep(j,ncol())A[i][j]+=B[i][j];return *this;}
 	Matrix& operator-=(const Matrix& B){assert(ncol()==B.ncol()&&nrow()==B.nrow());rep(i,nrow())rep(j,ncol())A[i][j]-=B[i][j];return *this;}
-	Matrix& operator*=(const Matrix& B){assert(ncol()==B.nrow());Matrix<T> tmp(nrow(),B.ncol());rep(i,nrow())rep(j,B.ncol())rep(k,ncol())tmp[i][j]+=A[i][k]*B[k][j]%MOD;rep(i,nrow())rep(j,B.ncol())A[i][j]=tmp[i][j];return *this;}
+	Matrix& operator*=(const Matrix& B){assert(ncol()==B.nrow());Matrix<T> tmp(nrow(),B.ncol());rep(i,nrow())rep(j,B.ncol())rep(k,ncol())tmp[i][j]=(tmp[i][j]+A[i][k]*B[k][j])%MOD;rep(i,nrow())A[i].resize(B.ncol());rep(i,nrow())rep(j,B.ncol())A[i][j]=tmp[i][j];return *this;}
 	Matrix operator+(const Matrix& B)const{return Matrix(*this)+=B;}
 	Matrix operator-(const Matrix& B)const{return Matrix(*this)-=B;}
 	Matrix operator*(const Matrix& B)const{return Matrix(*this)*=B;}
@@ -33,8 +33,54 @@ template<class T=ll>struct Matrix{
 		assert(nrow()==ncol());
 		Matrix<T> C(nrow()),ret(nrow());
 		rep(i,nrow()){rep(j,ncol())C[i][j]=A[i][j];ret[i][i]=1;}
-		while(K>0){if(K&1){ret=ret*C%MOD;}C=C*C%MOD;K=K>>1;}
+		while(K>0){if(K&1){ret=ret*C;}C=C*C;K=K>>1;}
 		return ret;
+	}
+	T det(){
+		T ret=1;
+		Matrix B(*this);
+		assert(nrow()==ncol());
+		rep(i,ncol()){
+			int idx=-1;
+			range(j,i,ncol())if(B[j][i]!=0)idx=j;
+			if(idx==-1)return 0;
+			if(i!=idx){
+				ret*=-1;
+				swap(B[i],B[idx]);
+			}
+			ret*=B[i][i];
+			T vv=B[i][i];
+			rep(j,ncol())B[i][j]/=vv;
+			range(j,i+1,ncol()){
+				T mul=B[j][i];
+				rep(k,ncol())B[j][k]-=B[i][k]*mul;
+			}
+		}
+		return ret;
+	}
+	T det(ll m=MOD){
+		T ret=1;
+		Matrix B(*this);
+		assert(nrow()==ncol());
+		rep(i,ncol()){
+			int idx=-1;
+			range(j,i,ncol())if(B[j][i]!=0)idx=j;
+			if(idx==-1)return 0;
+			if(i!=idx){
+				ret*=-1;
+				if(ret<0)ret+=m;
+				swap(B[i],B[idx]);
+			}
+			ret*=B[i][i];ret%=m;
+			T inv=modpw(B[i][i],m-2);
+			rep(j,ncol())B[i][j]*=inv,B[i][j]%=m;
+			range(j,i+1,ncol()){
+				T mul=B[j][i];
+				rep(k,ncol())B[j][k]+=(m-B[i][k]*mul%m),B[j][k]%=m;
+			}
+		}
+		return (ret);
 	}
 	void show(){rep(i,nrow())rep(j,ncol())cout<<A[i][j]<<(j!=ncol()-1?" ":"\n");}
 };
+

@@ -14,8 +14,8 @@ ll extgcd(ll a,ll b,ll &x,ll &y) {
 
 tuple<bool, ll, ll> ExtGCD(ll a, ll b, ll c)
 {
-    auto[v,l]=atcoder::crt({0,c%abs(b)},{abs(a),abs(b)});
-    return {l!=0, v/a, (c-v)/b};
+	auto[v,l]=atcoder::crt({0,c%abs(b)},{abs(a),abs(b)});
+	return {l!=0, v/a, (c-v)/b};
 }
 
 bool isPrime(ll n){

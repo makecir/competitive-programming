@@ -59,61 +59,50 @@ int main(){
 		cout<<-1<<endl;
 		return 0;
 	}
-	string ans11="aa............bb............cc............dd........e..........fe..........f ...........a...........fe..........fe..........fe..........f";
-	string ans9="aa.aa.aa...b..b..b..b..b..baa.aa.aa...b..b..b..b..b..baa.aa.aa...b..b..b..b..b..b";
-	string ans6="aa..bc..aabccc..ab..ccabbb..ca..bbca";
-	string ans4="abccabddccabddab";
-	if(n%3==0){
-		rep(i,n/3){
-			vv[i][2*i]='a';
-			vv[i][2*i+1]='a';
-			vv[n-(i*2)-1][n-i-1]='a';
-			vv[n-(i*2)-2][n-i-1]='a';
+	else{
+		vs s3(3),s4(4),s5(5),s7(7);
+		s3[0]="aa.";
+		s3[1]="..a";
+		s3[2]="..a";
+		s4[0]="aabc";
+		s4[1]="ddbc";
+		s4[2]="bcaa";
+		s4[3]="bcdd";
+		s5[0]="abbcc";
+		s5[1]="ac..a";
+		s5[2]="bc..a";
+		s5[3]="b.aab";
+		s5[4]="ccddb";
+		s7[0]="aabbaa.";
+		s7[1]="bba...a";
+		s7[2]="c.a...a";
+		s7[3]="cbb...b";
+		s7[4]="...bbab";
+		s7[5]="...c.ac";
+		s7[6]="...cbbc";
+		if(n==3||n==6){
+			rep(i,n/3){
+				rep(j,3)rep(k,3)vv[i*3+j][i*3+k]=s3[j][k];
+			}
+		}
+		else if(n==7||n==11){
+			rep(j,7)rep(k,7)vv[j][k]=s7[j][k];
+			if(n==11)rep(j,4)rep(k,4)vv[j+7][k+7]=s4[j][k];
+		}
+		else{
+			ll rem=n%4;
+			rep(i,rem){
+				rep(j,5)rep(k,5)vv[i*5+j][i*5+k]=s5[j][k];
+			}
+			rep(i,(n-rem*5)/4){
+				rep(j,4)rep(k,4)vv[rem*5+i*4+j][rem*5+i*4+k]=s4[j][k];
+			}
+			
 		}
 		rep(i,n){
 			rep(j,n)cout<<vv[i][j];
 			cout<<endl;
 		}
-		return 0;
 	}
-	rep(a,(n+5)/4){
-		rep(b,(n+5)/6){
-			rep(d,(n+5)/11){
-				ll c=n-a*4-b*6;
-				//puta(a,b,c);
-				if((c<0)||(c%9!=0))continue;
-				//puta("!");
-				c/=9;
-				
-				rep(k,b){
-					rep(i,6){
-						rep(j,6){
-							vv[i+6*k][j+6*k]=ans6[((i%6)*6)+(j%6)];
-						}
-					}
-				}
-				rep(k,a){
-					rep(i,4){
-						rep(j,4){
-							vv[i+6*b+4*k][j+6*b+4*k]=ans4[((i%4)*4)+(j%4)];
-						}
-					}
-				}
-				rep(k,c){
-					rep(i,9){
-						rep(j,9){
-							vv[i+6*b+4*a+9*k][j+6*b+4*a+9*k]=ans9[((i%9)*9)+(j%9)];
-						}
-					}
-				}
-				rep(i,n){
-					rep(j,n)cout<<vv[i][j];
-					cout<<endl;
-				}
-				return 0;
-			}
-		}
-	}
-	cout<<-1<<endl;
 	return 0;
 }
