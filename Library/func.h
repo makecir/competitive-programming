@@ -79,3 +79,5 @@ ll e() {
 template<class H,class...T>void puta(H&&h,T&&...t){cout<<h<<' ';puta(t...);}
 template<class S,class T>ostream&operator<<(ostream&os,pair<S,T>p){os<<"["<<p.first<<", "<<p.second<<"]";return os;};
 template<class S>auto&operator<<(ostream&os,vector<S>t){bool a=1; for(auto s:t){os<<(a?"":" ")<<s;a=0;} return os;}
+
+const int mod = 699999953; // large prime number
